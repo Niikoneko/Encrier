@@ -31,6 +31,8 @@ public class MainController {
     @FXML
     private MenuItem archiver;
     @FXML
+    private MenuItem gererTypes;
+    @FXML
     private MenuItem parametres;
     @FXML
     private MenuItem quitter;
@@ -48,9 +50,10 @@ public class MainController {
         listProjets.setItems(FXCollections.observableArrayList(projetList));
     }
 
-    /* -- Méthodes sur évènements -- */
+    /* -- Méthodes sur menu -- */
     @FXML
     protected void onNouveauClick() throws IOException {
+        logger.debug("Ouverture de la fenêtre de création d'un nouveau projet");
         List<TypeProjet> listTypes = bddHandler.getAllTypesProjets();
         NouveauProjetController.loadChoices(listTypes);
         NouveauProjetController.controller = this;
@@ -74,14 +77,14 @@ public class MainController {
     }
 
     @FXML
-    protected void onGestionTypesClick() {
-        Alert message = new Alert(Alert.AlertType.INFORMATION);
-        message.setContentText("Pas encore implémenté");
-        message.showAndWait().ifPresent(rs -> {
-            if (rs == ButtonType.OK) {
-                logger.info("L'utilisateur a bien vu qu'il ne pouvait pas gérer les types de projet");
-            }
-        });
+    protected void onGestionTypesClick() throws IOException {
+        logger.debug("Ouverture de la fenêtre de gestion des types de projet");
+        FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/gestion_types.fxml"));
+        Scene gestionTypesScene = new Scene(loader.load(), 700, 400);
+        Stage gestionTypes = new Stage();
+        gestionTypes.setScene(gestionTypesScene);
+        gestionTypes.setTitle("Gestion des types de projet");
+        gestionTypes.show();
     }
 
     @FXML
@@ -99,5 +102,12 @@ public class MainController {
     protected void onQuitterClick() {
         logger.info("Clic sur quitter, sortie de l'application");
         System.exit(0);
+    }
+
+    /* -- Méthodes sur liste de projet -- */
+
+    @FXML
+    protected void onProjetClick(){
+
     }
 }

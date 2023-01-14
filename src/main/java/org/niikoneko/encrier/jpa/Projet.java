@@ -10,6 +10,19 @@ public class Projet {
         this.archive = archive;
     }
 
+    /**
+     * Constructeur pré-création
+     * @param type le type de projet
+     * @param nom Le nom du projet
+     * @param description Une description du projet
+     */
+    public Projet(TypeProjet type, String nom, String description) {
+        this.typeProjet = type;
+        this.nom = nom;
+        this.description = description;
+        this.archive = false;
+    }
+
     public static final String table = "projet";
 
     private Long id;

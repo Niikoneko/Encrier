@@ -4,9 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import org.niikoneko.encrier.MainController;
 import org.niikoneko.encrier.data.DataConnector;
+import org.niikoneko.encrier.jpa.Projet;
 import org.niikoneko.encrier.jpa.TypeProjet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,15 +28,15 @@ public class NouveauProjetController {
     public static MainController controller;
 
     @FXML
-    ChoiceBox<TypeProjet> typeProjet;
+    private ChoiceBox<TypeProjet> typeProjet;
     @FXML
-    TextField nomProjet;
+    private TextField nomProjet;
     @FXML
-    TextArea descriptionProjet;
+    private TextArea descriptionProjet;
     @FXML
-    Button creer;
+    private Button creer;
     @FXML
-    Button annuler;
+    private Button annuler;
 
     @FXML
     Label errorLabel;
@@ -56,9 +56,10 @@ public class NouveauProjetController {
             return;
         }
         // Création du projet
+        Projet newProjet = new Projet(typeProjet.getValue(), nomProjet.getText(), descriptionProjet.getText());
         DataConnector bddHandler = new DataConnector();
-        logger.debug("Création du projet " + nomProjet.getText());
-        String error = bddHandler.createProjet(typeProjet.getValue(), nomProjet.getText(), descriptionProjet.getText());
+        logger.debug("Création du projet " + newProjet.getNom());
+        String error = bddHandler.createOrUpdateProjet(newProjet);
         if (error.isEmpty()) {
             Stage current = (Stage) annuler.getScene().getWindow();
             controller.initialize();

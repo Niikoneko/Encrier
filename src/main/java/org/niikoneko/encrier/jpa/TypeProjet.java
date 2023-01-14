@@ -9,12 +9,11 @@ public class TypeProjet {
     }
 
     /**
-     * Constructeur pré-création. Utilité à confirmer.
+     * Constructeur pré-création
      * @param nom Le nom du type
      * @param description La description du type
      */
     public TypeProjet(String nom, String description) {
-        this.id = (long) -1;
         this.nom = nom;
         this.description = description;
     }
