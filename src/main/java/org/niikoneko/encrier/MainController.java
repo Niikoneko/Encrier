@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import org.niikoneko.encrier.data.DataConnector;
 import org.niikoneko.encrier.formulaires.NouveauProjetController;
@@ -24,22 +23,6 @@ public class MainController {
     private final static Logger logger = LoggerFactory.getLogger(MainController.class);
 
     private final DataConnector bddHandler = new DataConnector();
-
-    /* -- Menu Principal : Projets -- */
-    @FXML
-    private MenuItem nouveau;
-    @FXML
-    private MenuItem archiver;
-    @FXML
-    private MenuItem gererTypes;
-    @FXML
-    private MenuItem parametres;
-    @FXML
-    private MenuItem quitter;
-
-    /* -- Menu Principal : Aide -- */
-    @FXML
-    private MenuItem aPropos;
 
     /* -- Elements de la vue centrale -- */
     @FXML
@@ -108,6 +91,6 @@ public class MainController {
 
     @FXML
     protected void onProjetClick(){
-
+        //TODO
     }
 }

@@ -34,8 +34,6 @@ public class NouveauProjetController {
     @FXML
     private TextArea descriptionProjet;
     @FXML
-    private Button creer;
-    @FXML
     private Button annuler;
 
     @FXML

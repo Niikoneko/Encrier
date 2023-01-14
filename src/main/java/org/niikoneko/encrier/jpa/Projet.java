@@ -23,8 +23,6 @@ public class Projet {
         this.archive = false;
     }
 
-    public static final String table = "projet";
-
     private Long id;
 
 

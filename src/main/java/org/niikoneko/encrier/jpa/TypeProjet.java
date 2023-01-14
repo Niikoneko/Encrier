@@ -18,8 +18,6 @@ public class TypeProjet {
         this.description = description;
     }
 
-    public static final String table = "type_projet";
-
     private Long id;
 
     private String nom;

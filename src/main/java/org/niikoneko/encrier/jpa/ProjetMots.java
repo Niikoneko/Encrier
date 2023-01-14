@@ -6,8 +6,6 @@ import java.util.Date;
 
 public class ProjetMots {
 
-    public static final String table = "projet_mots";
-
     private Long id;
 
     private Projet projet;

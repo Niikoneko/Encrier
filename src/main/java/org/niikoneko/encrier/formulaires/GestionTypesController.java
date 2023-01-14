@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.niikoneko.encrier.MainController;
 import org.niikoneko.encrier.data.DataConnector;
 import org.niikoneko.encrier.jpa.Projet;
 import org.niikoneko.encrier.jpa.TypeProjet;
@@ -18,7 +17,6 @@ public class GestionTypesController {
     private static final Logger logger = LoggerFactory.getLogger(GestionTypesController.class);
 
     private final DataConnector bddHandler = new DataConnector();
-    public static MainController controller;
 
     // Elements interactifs
     @FXML
@@ -29,12 +27,6 @@ public class GestionTypesController {
     private TextField nomType;
     @FXML
     private TextArea descriptionType;
-    @FXML
-    private Button ajouter;
-    @FXML
-    private Button enregistrer;
-    @FXML
-    private Button supprimer;
     @FXML
     private Button quitter;
 
@@ -96,9 +88,10 @@ public class GestionTypesController {
             message.showAndWait().ifPresent(rs -> {
                 if (rs == ButtonType.OK) {
                     logger.debug("Suppression du type de projet {}", selected);
-                    bddHandler.deleteTypeProjet(selected);
+                    errorLabel.setText(bddHandler.deleteTypeProjet(selected));
                 }
             });
+            if (!errorLabel.getText().isEmpty()) return;
         }
         initialize();
     }

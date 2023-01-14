@@ -16,33 +16,19 @@ public class Main extends javafx.application.Application {
 
     private final static Properties proprietes = new Properties();
 
-    private final String startupMessage =
-"""
-  |   |     oooooooooooo                                 o8o
-  |   |     `888'     `8                                 `"'
-  |===|      888         ooo. .oo.    .ooooo.  oooo d8b oooo   .ooooo.  oooo d8b
-  |___|      888oooo8    `888P"Y88b  d88' `"Y8 `888""8P `888  d88' `88b `888""8P
-   ).(       888    "     888   888  888        888      888  888ooo888  888
-   \\|/       888       o  888   888  888   .o8  888      888  888    .o  888
-    '       o888ooooood8 o888o o888o `Y8bod8P' d888b    o888o `Y8bod8P' d888b
-""";
-
-    private final String startupMessageAlt =
-"""
-  ,
- "\\",        ooooooooo.   oooo
- "=\\=",      `888   `Y88. `888
-  "=\\=",      888   .d88'  888  oooo  oooo  ooo. .oo.  .oo.    .ooooo.      88
-   "=\\=",     888ooo88P'   888  `888  `888  `888P"Y88bP"Y88b  d88' `88b     88
-    "-\\-"     888          888   888   888   888   888   888  888ooo888 8888888888
-       \\      888          888   888   888   888   888   888  888    .o     88
-        `    o888o        o888o  `V88V"V8P' o888o o888o o888o `Y8bod8P'     88
-""";
-
     @Override
     public void start(Stage stage) throws IOException {
         // Informations de base
         proprietes.load(this.getClass().getClassLoader().getResourceAsStream(".properties"));
+        String startupMessage = """
+                  |   |     oooooooooooo                                 o8o
+                  |   |     `888'     `8                                 `"'
+                  |===|      888         ooo. .oo.    .ooooo.  oooo d8b oooo   .ooooo.  oooo d8b
+                  |___|      888oooo8    `888P"Y88b  d88' `"Y8 `888""8P `888  d88' `88b `888""8P
+                   ).(       888    "     888   888  888        888      888  888ooo888  888
+                   \\|/       888       o  888   888  888   .o8  888      888  888    .o  888
+                    '       o888ooooood8 o888o o888o `Y8bod8P' d888b    o888o `Y8bod8P' d888b
+                """;
         logger.info("\n" + startupMessage);
         logger.info("Version " + proprietes.getProperty("version"));
 
