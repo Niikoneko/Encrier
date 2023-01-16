@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="230.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.niikoneko.encrier.RightPanelController">
+   <children>
+      <Label fx:id="errorLabel" textFill="#c60000">
+         <padding>
+            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+         </padding>
+      </Label>
+      <HBox layoutY="80.0" prefHeight="100.0" prefWidth="230.0">
+         <children>
+            <VBox prefHeight="560.0" prefWidth="230.0">
+               <children>
+                  <Label text="Date">
+                     <VBox.margin>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="Nombre de Mots">
+                     <VBox.margin>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label text="Temps de session">
+                     <VBox.margin>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" prefHeight="560.0" prefWidth="230.0">
+               <children>
+                  <DatePicker fx:id="dateSession" editable="false" maxWidth="120.0">
+                     <VBox.margin>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                     </VBox.margin>
+                  </DatePicker>
+                  <TextField fx:id="nombreMots" alignment="CENTER_RIGHT" promptText="1234">
+                     <VBox.margin>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="heuresSession" alignment="CENTER_RIGHT" promptText="hh">
+                           <HBox.margin>
+                              <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label text=":">
+                           <HBox.margin>
+                              <Insets bottom="4.0" left="4.0" right="4.0" top="7.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="minutesSession" alignment="CENTER_RIGHT" promptText="mm">
+                           <HBox.margin>
+                              <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Button layoutX="80.0" layoutY="190.0" mnemonicParsing="false" onAction="#onEnregistrerSessionClick" text="Enregistrer" />
+      <HBox layoutY="230.0" prefHeight="100.0" prefWidth="230.0" />
+      <Pane fx:id="cachePane" opacity="0.3" prefHeight="560.0" prefWidth="230.0" style="-fx-background-color: #000000;" />
+   </children>
+</AnchorPane>

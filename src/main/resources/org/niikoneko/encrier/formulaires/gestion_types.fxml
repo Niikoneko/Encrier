@@ -62,12 +62,12 @@
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="400.0">
                      <children>
-                        <TextField fx:id="nomType" layoutX="20.0" layoutY="20.0">
+                        <TextField fx:id="nomType" layoutX="20.0" layoutY="20.0" promptText="Nom du type de projet">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextArea fx:id="descriptionType" prefHeight="200.0" prefWidth="200.0">
+                        <TextArea fx:id="descriptionType" prefHeight="200.0" prefWidth="200.0" promptText="Une courte description">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>

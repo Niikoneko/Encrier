@@ -1,26 +1,48 @@
 package org.niikoneko.encrier.jpa;
 
-import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 
 public class ProjetMots {
+
+    public ProjetMots(long id, Projet projet, LocalDate entryDate, long nombreMots, LocalTime tempsSession) {
+        this.id = id;
+        this.projet = projet;
+        this.entryDate = entryDate;
+        this.nombreMots = nombreMots;
+        this.tempsSession = tempsSession;
+    }
+
+    /**
+     * Constructeur pré-création
+     * @param projet Le projet associé
+     * @param entryDate La date de la session d'écriture
+     * @param nombreMots Le nombre de mots ajoutés
+     * @param tempsSession Le temps de la session
+     */
+    public ProjetMots(Projet projet, LocalDate entryDate, long nombreMots, LocalTime tempsSession) {
+        this.projet = projet;
+        this.entryDate = entryDate;
+        this.nombreMots = nombreMots;
+        this.tempsSession = tempsSession;
+    }
 
     private Long id;
 
     private Projet projet;
 
-    private Date entryDate;
+    private LocalDate entryDate;
 
     private Long nombreMots;
 
-    private Time tempsSession;
+    private LocalTime tempsSession;
 
-    public Time getTempsSession() {
+    public LocalTime getTempsSession() {
         return tempsSession;
     }
 
-    public void setTempsSession(Time tempsSession) {
+    public void setTempsSession(LocalTime tempsSession) {
         this.tempsSession = tempsSession;
     }
 
@@ -32,11 +54,11 @@ public class ProjetMots {
         this.nombreMots = nombreMots;
     }
 
-    public Date getEntryDate() {
+    public LocalDate getEntryDate() {
         return entryDate;
     }
 
-    public void setEntryDate(Date entryDate) {
+    public void setEntryDate(LocalDate entryDate) {
         this.entryDate = entryDate;
     }
 

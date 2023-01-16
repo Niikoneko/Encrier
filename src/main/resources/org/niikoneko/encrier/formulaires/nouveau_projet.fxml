@@ -73,12 +73,12 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
                         </ChoiceBox>
-                        <TextField fx:id="nomProjet" layoutX="20.0" layoutY="20.0">
+                        <TextField fx:id="nomProjet" layoutX="20.0" layoutY="20.0" promptText="Le nom du projet">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextArea fx:id="descriptionProjet" prefHeight="200.0" prefWidth="200.0">
+                        <TextArea fx:id="descriptionProjet" prefHeight="200.0" prefWidth="200.0" promptText="Une courte description">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>

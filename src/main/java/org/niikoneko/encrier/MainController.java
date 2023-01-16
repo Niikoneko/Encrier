@@ -24,6 +24,10 @@ public class MainController {
 
     private final DataConnector bddHandler = new DataConnector();
 
+    private RightPanelController rightController;
+
+    private Projet selectedProjet;
+
     /* -- Elements de la vue centrale -- */
     @FXML
     private ListView<Projet> listProjets;
@@ -31,6 +35,7 @@ public class MainController {
     public void initialize() {
         List<Projet> projetList = bddHandler.getAllProjets();
         listProjets.setItems(FXCollections.observableArrayList(projetList));
+        rightController = RightPanelController.getInstance();
     }
 
     /* -- Méthodes sur menu -- */
@@ -91,6 +96,7 @@ public class MainController {
 
     @FXML
     protected void onProjetClick(){
-        //TODO
+        selectedProjet = listProjets.getSelectionModel().getSelectedItem();
+        rightController.setCurrentProjet(selectedProjet);
     }
 }
