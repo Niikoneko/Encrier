@@ -30,14 +30,20 @@ public class Main extends javafx.application.Application {
                     '       o888ooooood8 o888o o888o `Y8bod8P' d888b    o888o `Y8bod8P' d888b
                 """;
         logger.info("\n" + startupMessage);
-        logger.info("Version " + proprietes.getProperty("version"));
+        String version = "Version " + proprietes.getProperty("version");
+        logger.info(version);
 
         // Démarrage de l'appli
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main_view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
-        stage.setTitle("Encrier v" + proprietes.getProperty("version"));
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
+        stage.setTitle("Encrier");
         stage.setScene(scene);
+        stage.setMinHeight(650);
+        stage.setMinWidth(1200);
+        stage.setMaximized(true);
         stage.show();
+        MainController mainController = MainController.getInstance();
+        mainController.setVersion(version, "Snapshot - Travail en cours");
     }
 
     public static void main(String[] args) {

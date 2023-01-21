@@ -9,8 +9,9 @@ import org.niikoneko.encrier.jpa.ProjetMots;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.function.UnaryOperator;
 
 public class RightPanelController {
@@ -22,6 +23,8 @@ public class RightPanelController {
     private final DataConnector bddHandler = new DataConnector();
 
     private Projet currentProjet;
+
+    private MainController mainController;
 
     @FXML
     private Pane cachePane;
@@ -47,7 +50,7 @@ public class RightPanelController {
         UnaryOperator<TextFormatter.Change> numberFilter = new UnaryOperator<TextFormatter.Change>() {
             @Override
             public TextFormatter.Change apply(TextFormatter.Change change) {
-                change.setText(change.getText().replaceAll("[^\\d]", ""));
+                change.setText(change.getText().replaceAll("\\D", ""));
                 return change;
             }
         };
@@ -58,6 +61,7 @@ public class RightPanelController {
     }
 
     public void onEnregistrerSessionClick() {
+        logger.debug("Enregistrement d'une nouvelle session d'écriture pour le projet {}.", currentProjet);
         // Verification préalable
         if (dateSession.getValue() == null || nombreMots.getText().isEmpty()
             || minutesSession.getText().isEmpty()) {
@@ -70,21 +74,28 @@ public class RightPanelController {
             logger.error("Clic sur enregistrer sans projet sélectionné.");
             return;
         }
-        LocalTime tempsSaisi = LocalTime.of(Integer.parseInt(heuresSession.getText()),
-                Integer.parseInt(minutesSession.getText()));
+        Duration tempsSaisi = Duration.of(Integer.parseInt(heuresSession.getText()), ChronoUnit.HOURS);
+        tempsSaisi = tempsSaisi.plus(Duration.of(Integer.parseInt(minutesSession.getText()), ChronoUnit.MINUTES));
         ProjetMots session = new ProjetMots(currentProjet, dateSession.getValue(),
                 Integer.parseInt(nombreMots.getText()), tempsSaisi);
-        //TODO Enregistrer ce bel objet en base
-        errorLabel.setText("Pas encore implémenté. \nEt oui, c'est triste...");
+        String erreur = bddHandler.createProjetMots(session);
+        if (erreur.isEmpty())
+            mainController.updateCentralView();
+        else errorLabel.setText(erreur);
     }
 
     /**
-     * Prend en compte le projet sélectionné et lève le cache
+     * Prend en compte le projet sélectionné et lève le cache ou réinitialise si null
      * @param projet le projet sélectionné
      */
     public void setCurrentProjet(Projet projet) {
-        this.currentProjet = projet;
-        this.cachePane.setVisible(false);
+        if (projet == null) {
+            this.currentProjet = null;
+            this.cachePane.setVisible(true);
+        } else {
+            this.currentProjet = projet;
+            this.cachePane.setVisible(false);
+        }
     }
 
     /**
@@ -93,5 +104,9 @@ public class RightPanelController {
      */
     public static RightPanelController getInstance() {
         return instance;
+    }
+
+    public void declareMainController(MainController main) {
+        this.mainController = main;
     }
 }

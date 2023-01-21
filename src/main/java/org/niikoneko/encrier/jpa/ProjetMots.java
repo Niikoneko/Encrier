@@ -1,12 +1,12 @@
 package org.niikoneko.encrier.jpa;
 
+import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 
 public class ProjetMots {
 
-    public ProjetMots(long id, Projet projet, LocalDate entryDate, long nombreMots, LocalTime tempsSession) {
+    public ProjetMots(long id, Projet projet, LocalDate entryDate, long nombreMots, Duration tempsSession) {
         this.id = id;
         this.projet = projet;
         this.entryDate = entryDate;
@@ -21,7 +21,7 @@ public class ProjetMots {
      * @param nombreMots Le nombre de mots ajoutés
      * @param tempsSession Le temps de la session
      */
-    public ProjetMots(Projet projet, LocalDate entryDate, long nombreMots, LocalTime tempsSession) {
+    public ProjetMots(Projet projet, LocalDate entryDate, long nombreMots, Duration tempsSession) {
         this.projet = projet;
         this.entryDate = entryDate;
         this.nombreMots = nombreMots;
@@ -36,13 +36,13 @@ public class ProjetMots {
 
     private Long nombreMots;
 
-    private LocalTime tempsSession;
+    private Duration tempsSession;
 
-    public LocalTime getTempsSession() {
+    public Duration getTempsSession() {
         return tempsSession;
     }
 
-    public void setTempsSession(LocalTime tempsSession) {
+    public void setTempsSession(Duration tempsSession) {
         this.tempsSession = tempsSession;
     }
 

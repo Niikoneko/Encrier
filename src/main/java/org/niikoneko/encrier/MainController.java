@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import org.niikoneko.encrier.data.DataConnector;
@@ -20,11 +21,15 @@ import java.util.List;
 
 public class MainController {
 
+    private static MainController instance;
+
     private final static Logger logger = LoggerFactory.getLogger(MainController.class);
 
     private final DataConnector bddHandler = new DataConnector();
 
     private RightPanelController rightController;
+
+    private CentralViewController centralController;
 
     private Projet selectedProjet;
 
@@ -32,10 +37,27 @@ public class MainController {
     @FXML
     private ListView<Projet> listProjets;
 
+    /* -- Elements du bas -- */
+    @FXML
+    private Label versionText;
+    @FXML
+    private Label leftBottomText;
+
     public void initialize() {
+        instance = this;
+        // MAJ de la liste des projets
         List<Projet> projetList = bddHandler.getAllProjets();
         listProjets.setItems(FXCollections.observableArrayList(projetList));
+        // Récupération du rightController
         rightController = RightPanelController.getInstance();
+        rightController.declareMainController(this);
+        // Récupération du centralController
+        centralController = CentralViewController.getInstance();
+        // Reprise du projet sélectionné
+        if (selectedProjet != null) {
+            selectedProjet = projetList.stream().filter(p -> p.getId().equals(selectedProjet.getId())).toList().get(0);
+            listProjets.getSelectionModel().select(selectedProjet);
+        }
     }
 
     /* -- Méthodes sur menu -- */
@@ -97,6 +119,28 @@ public class MainController {
     @FXML
     protected void onProjetClick(){
         selectedProjet = listProjets.getSelectionModel().getSelectedItem();
-        rightController.setCurrentProjet(selectedProjet);
+        if (selectedProjet != null) {
+            rightController.setCurrentProjet(selectedProjet);
+            centralController.setCurrentProjet(selectedProjet);
+        }
+    }
+
+    /* -- Méthodes de MAJ de vues -- */
+
+    protected void updateCentralView() {
+        centralController.updateDisplays();
+    }
+
+    /**
+     * Récupère l'instance initialisée
+     * @return l'instance actuellement utilisée
+     */
+    public static MainController getInstance() {
+        return instance;
+    }
+
+    protected void setVersion(String version, String leftText) {
+        versionText.setText(version);
+        leftBottomText.setText(leftText);
     }
 }

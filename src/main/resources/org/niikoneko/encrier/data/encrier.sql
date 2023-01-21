@@ -25,9 +25,9 @@ CREATE TABLE "chapitre" (
 CREATE TABLE "projet_mots" (
    "id" BIGINT IDENTITY PRIMARY KEY,
    "projet_id" BIGINT NOT NULL,
-   "entry_date" date NOT NULL,
+   "entry_date" DATE NOT NULL,
    "nombre_mots" BIGINT NOT NULL,
-   "temps_session" time
+   "temps_session" INTERVAL DAY(4) TO MINUTE
 );
 
 CREATE TABLE "projet_chapitres" (
