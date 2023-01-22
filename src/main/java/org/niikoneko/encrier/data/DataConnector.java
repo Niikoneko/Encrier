@@ -71,11 +71,12 @@ public class DataConnector {
         try {
             TypeProjet resultat;
             ResultSet result = executeQuery(query);
-            result.next();
-            resultat = new TypeProjet(result.getLong("id"),
-                    result.getString("nom"),
-                    result.getString("description"));
-            return resultat;
+            if (result.next()) {
+                resultat = new TypeProjet(result.getLong("id"),
+                        result.getString("nom"),
+                        result.getString("description"));
+                return resultat;
+            }
         } catch (SQLException e) {
             logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
         }
@@ -140,14 +141,40 @@ public class DataConnector {
         try {
             Projet resultat;
             ResultSet result = executeQuery(query);
-            result.next();
-            TypeProjet type = getTypeProjetFromId(result.getLong("type_id"));
-            resultat = new Projet(result.getLong("id"),
-                    type,
-                    result.getString("nom"),
-                    result.getString("description"),
-                    result.getBoolean("archive"));
-            return resultat;
+            if (result.next()) {
+                TypeProjet type = getTypeProjetFromId(result.getLong("type_id"));
+                resultat = new Projet(result.getLong("id"),
+                        type,
+                        result.getString("nom"),
+                        result.getString("description"),
+                        result.getBoolean("archive"));
+                return resultat;
+            }
+        } catch (SQLException e) {
+            logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
+        }
+        return null;
+    }
+
+    /**
+     * Récupère un projet par son nom
+     * @param nom Le nom du projet
+     * @return Le projet possédant ce nom
+     */
+    public Projet getProjetFromNom(String nom) {
+        String query = "SELECT * FROM \"projet\" WHERE \"nom\" = '" + replaceApostrophes(nom) + "';";
+        try {
+            Projet resultat;
+            ResultSet result = executeQuery(query);
+            if (result.next()) {
+                TypeProjet type = getTypeProjetFromId(result.getLong("type_id"));
+                resultat = new Projet(result.getLong("id"),
+                        type,
+                        result.getString("nom"),
+                        result.getString("description"),
+                        result.getBoolean("archive"));
+                return resultat;
+            }
         } catch (SQLException e) {
             logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
         }
@@ -156,7 +183,8 @@ public class DataConnector {
 
     public List<ProjetMots> getAllProjetMotsFromProjet(Projet projet) {
         String query = "SELECT * FROM \"projet_mots\"" +
-                "WHERE \"projet_id\" = " + projet.getId() + ";";
+                "WHERE \"projet_id\" = " + projet.getId() + "" +
+                "ORDER BY \"entry_date\" ASC;";
         List<ProjetMots> resultats = new ArrayList<>();
         try {
             ResultSet result = executeQuery(query);
@@ -179,8 +207,8 @@ public class DataConnector {
                 "WHERE \"projet_id\" = " + projet.getId() + ";";
         try {
             ResultSet result = executeQuery(query);
-            result.next();
-            return result.getInt("mots");
+            if (result.next())
+                return result.getInt("mots");
         } catch (SQLException e) {
             logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
         }
@@ -192,8 +220,7 @@ public class DataConnector {
                 "WHERE \"projet_id\" = " + projet.getId() + ";";
         try {
             ResultSet result = executeQuery(query);
-            result.next();
-            if (result.getString("temps") != null)
+            if (result.next() && !(result.getString("temps") == null))
                 return getDurationFromProjetMots(result.getString("temps"));
         } catch (SQLException e) {
             logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
@@ -212,13 +239,13 @@ public class DataConnector {
             Connection conn = DriverManager.getConnection(
                     BddInfos.bddUrl + ";create=true", BddInfos.bddUser, BddInfos.bddPass);
             Statement state = conn.createStatement();
-            state.execute(Files.readString(Path.of("classes/org/niikoneko/encrier/data/encrier.sql")));
+            state.execute(Files.readString(Path.of("data/encrier.sql")));
             state.close();
             state = conn.createStatement();
-            state.execute(Files.readString(Path.of("classes/org/niikoneko/encrier/data/encrier_constraints.sql")));
+            state.execute(Files.readString(Path.of("data/encrier_constraints.sql")));
             state.close();
             state = conn.createStatement();
-            state.execute(Files.readString(Path.of("classes/org/niikoneko/encrier/data/encrier_default_data.sql")));
+            state.execute(Files.readString(Path.of("data/encrier_default_data.sql")));
             state.close();
             conn.close();
         } catch (Exception e) {
@@ -238,12 +265,13 @@ public class DataConnector {
         if (type.getId() == null) {
             // Création
             query = "INSERT INTO \"type_projet\" (\"nom\", \"description\")" +
-                    "VALUES ('" + type.getNom() + "', '" + type.getDescription() + "');";
+                    "VALUES ('" + replaceApostrophes(type.getNom()) + "', '" +
+                    replaceApostrophes(type.getDescription()) + "');";
         } else {
             // Mise à jour
             query = "UPDATE \"type_projet\" " +
-                    "SET \"nom\" = '" + type.getNom() + "', " +
-                    "\"description\" = '" + type.getDescription() + "' " +
+                    "SET \"nom\" = '" + replaceApostrophes(type.getNom()) + "', " +
+                    "\"description\" = '" + replaceApostrophes(type.getDescription()) + "' " +
                     "WHERE \"id\" = " + type.getId() + ";";
         }
         try {
@@ -267,15 +295,16 @@ public class DataConnector {
         String query = "";
         if (projet.getId() == null) {
             // Création
-             query = "INSERT INTO \"projet\" (\"type_id\", \"nom\", \"description\", \"archive\")" +
-                    "VALUES ('" + projet.getTypeProjet().getId() + "', '" + projet.getNom() + "', '" +
-                    projet.getDescription() + "', '" + projet.getAchive() + "');";
+             query = "INSERT INTO \"projet\" (\"type_id\", \"nom\", \"description\", \"archive\") " +
+                    "VALUES ('" + projet.getTypeProjet().getId() + "', '" +
+                    replaceApostrophes(projet.getNom()) + "', '" +
+                    replaceApostrophes(projet.getDescription()) + "', '" + projet.getAchive() + "');";
         } else {
             // Mise à jour
             query = "UPDATE \"projet\"" +
                     "SET \"type_id\" = '" + projet.getTypeProjet().getId() + "', " +
-                    "\"nom\" = '" + projet.getNom() + "', " +
-                    "\"description\" = '" + projet.getDescription() + "', " +
+                    "\"nom\" = '" + replaceApostrophes(projet.getNom()) + "', " +
+                    "\"description\" = '" + replaceApostrophes(projet.getDescription()) + "', " +
                     "\"archive\" = '" + projet.getAchive() + "' " +
                     "WHERE \"id\" = " + projet.getId() + ";";
         }
@@ -327,6 +356,23 @@ public class DataConnector {
     }
 
     /**
+     * Suppression d'un projet
+     * @param projet Le projet à supprimer
+     * @return Un texte vide si ok, l'erreur si erreur
+     */
+    public String deleteProjet(Projet projet) {
+        String query = "DELETE FROM \"projet\"" +
+                "WHERE \"id\" = " + projet.getId() + ";";
+        try {
+            executeQuery(query);
+            return "";
+        } catch (SQLException e) {
+            logger.error("Erreur de suppression d'un projet. Requête : \n {}", query, e);
+            return "Erreur inconnue.";
+        }
+    }
+
+    /**
      * Execution d'une requête en base
      * @param query La requête à utiliser
      * @return Le ResultSet de réponse
@@ -360,5 +406,9 @@ public class DataConnector {
         int heures = Integer.parseInt(timePart[0]);
         int minutes = Integer.parseInt(timePart[1]);
         return Duration.ofDays(jours).plus(Duration.ofHours(heures)).plus(Duration.ofMinutes(minutes));
+    }
+
+    private String replaceApostrophes(String toReplace) {
+        return toReplace.replace("'", "''");
     }
 }

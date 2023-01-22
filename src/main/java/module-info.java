@@ -12,4 +12,5 @@ module org.niikoneko.encrier {
 
     opens org.niikoneko.encrier to javafx.fxml;
     opens org.niikoneko.encrier.formulaires to javafx.fxml;
+    exports org.niikoneko.encrier;
 }

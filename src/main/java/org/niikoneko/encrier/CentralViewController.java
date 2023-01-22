@@ -43,6 +43,11 @@ public class CentralViewController {
 
     public void initialize() {
         instance = this;
+        titre.setText("");
+        description.setText("");
+        mots.setText("------ Mots");
+        temps.setText("--j  --:-- passés");
+        cachePane.setVisible(true);
     }
 
     /**
@@ -65,9 +70,11 @@ public class CentralViewController {
             // -- Mise à jour des graphiques
             // Nombre de mots / temps
             graphiqueNbMots.getData().clear();
+            graphiqueNbMots.setAnimated(false);
             graphiqueNbMots.getData().add(createNbMotsSeries());
         } else {
             titre.setText("");
+            description.setText("");
             mots.setText("------ Mots");
             temps.setText("--j  --:-- passés");
         }

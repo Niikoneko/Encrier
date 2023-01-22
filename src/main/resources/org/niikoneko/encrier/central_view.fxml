@@ -48,7 +48,7 @@
                </children>
             </HBox>
             <Separator prefWidth="1000.0" />
-            <LineChart fx:id="graphiqueNbMots" prefHeight="200.0">
+            <LineChart fx:id="graphiqueNbMots" prefHeight="300.0">
               <xAxis>
                 <CategoryAxis label="Date" side="BOTTOM" />
               </xAxis>

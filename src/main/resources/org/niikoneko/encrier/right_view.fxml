@@ -78,7 +78,7 @@
       <Separator layoutY="220.0" prefWidth="230.0" />
       <HBox layoutY="230.0" prefHeight="100.0" prefWidth="230.0">
          <children>
-            <Button layoutX="50.0" layoutY="10.0" mnemonicParsing="false" text="Supprimer le projet...">
+            <Button layoutX="50.0" layoutY="10.0" mnemonicParsing="false" onAction="#onSupprimerProjetClick" text="Supprimer le projet...">
                <HBox.margin>
                   <Insets bottom="20.0" left="50.0" right="20.0" top="20.0" />
                </HBox.margin>

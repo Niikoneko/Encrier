@@ -6,14 +6,17 @@ import javafx.scene.layout.Pane;
 import org.niikoneko.encrier.data.DataConnector;
 import org.niikoneko.encrier.jpa.Projet;
 import org.niikoneko.encrier.jpa.ProjetMots;
+import org.niikoneko.encrier.utils.NumberFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.function.UnaryOperator;
 
+/**
+ * Controller du bandeau droit : actions sur projet sélectionné
+ */
 public class RightPanelController {
 
     private static RightPanelController instance;
@@ -47,16 +50,9 @@ public class RightPanelController {
                 setDisable(item.isAfter(LocalDate.now()));
             }
         });
-        UnaryOperator<TextFormatter.Change> numberFilter = new UnaryOperator<TextFormatter.Change>() {
-            @Override
-            public TextFormatter.Change apply(TextFormatter.Change change) {
-                change.setText(change.getText().replaceAll("\\D", ""));
-                return change;
-            }
-        };
-        nombreMots.setTextFormatter(new TextFormatter<>(numberFilter));
-        heuresSession.setTextFormatter(new TextFormatter<>(numberFilter));
-        minutesSession.setTextFormatter(new TextFormatter<>(numberFilter));
+        nombreMots.setTextFormatter(new NumberFormatter());
+        heuresSession.setTextFormatter(new NumberFormatter());
+        minutesSession.setTextFormatter(new NumberFormatter());
         cachePane.setVisible(true);
     }
 
@@ -64,11 +60,12 @@ public class RightPanelController {
         logger.debug("Enregistrement d'une nouvelle session d'écriture pour le projet {}.", currentProjet);
         // Verification préalable
         if (dateSession.getValue() == null || nombreMots.getText().isEmpty()
-            || minutesSession.getText().isEmpty()) {
+            || minutesSession.getText().isEmpty() && heuresSession.getText().isEmpty()) {
             errorLabel.setText("Vous devez renseigner une date, \nun nombre de mots et un temps de \nsession.");
             return;
         }
         if (heuresSession.getText().isEmpty()) heuresSession.setText("0");
+        if (minutesSession.getText().isEmpty()) minutesSession.setText("0");
         if (currentProjet == null) {
             errorLabel.setText("Erreur : Aucun projet sélectionné, \nle bouton ne devrait pas être \naccessible.");
             logger.error("Clic sur enregistrer sans projet sélectionné.");
@@ -82,6 +79,18 @@ public class RightPanelController {
         if (erreur.isEmpty())
             mainController.updateCentralView();
         else errorLabel.setText(erreur);
+    }
+
+    public void onSupprimerProjetClick() {
+        Alert message = new Alert(Alert.AlertType.CONFIRMATION);
+        message.setContentText("Êtes-vous sûr de vouloir supprimer le projet \"" +
+                currentProjet.getNom() + "\" ?");
+        message.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                bddHandler.deleteProjet(currentProjet);
+                mainController.initialize();
+            }
+        });
     }
 
     /**

@@ -11,6 +11,7 @@ import org.niikoneko.encrier.jpa.TypeProjet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
  * Controller pour le formulaire de nouveau projet
  * @author Niikoneko
  * @since 2023/01
- * @version 1.0
+ * @version 1.1
  */
 public class NouveauProjetController {
 
@@ -34,8 +35,9 @@ public class NouveauProjetController {
     @FXML
     private TextArea descriptionProjet;
     @FXML
+    private CheckBox triggerIntegration;
+    @FXML
     private Button annuler;
-
     @FXML
     Label errorLabel;
 
@@ -47,7 +49,7 @@ public class NouveauProjetController {
     }
 
     @FXML
-    protected void onCreerClick() {
+    protected void onCreerClick() throws IOException {
         // Verification préalable
         if (nomProjet.getText().isEmpty() || typeProjet.getValue() == null) {
             errorLabel.setText("Vous devez renseigner un type et un nom de projet.");
@@ -61,6 +63,9 @@ public class NouveauProjetController {
         if (error.isEmpty()) {
             Stage current = (Stage) annuler.getScene().getWindow();
             controller.initialize();
+            if (triggerIntegration.isSelected()) {
+                controller.launchIntegration(bddHandler. getProjetFromNom(newProjet.getNom()));
+            }
             current.close();
         } else {
             errorLabel.setText("Erreur de création du projet : " + error);

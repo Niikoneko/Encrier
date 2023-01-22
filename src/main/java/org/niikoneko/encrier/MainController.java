@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import org.niikoneko.encrier.data.DataConnector;
+import org.niikoneko.encrier.formulaires.IntegrationProjetController;
 import org.niikoneko.encrier.formulaires.NouveauProjetController;
 import org.niikoneko.encrier.jpa.Projet;
 import org.niikoneko.encrier.jpa.TypeProjet;
@@ -51,10 +52,12 @@ public class MainController {
         // Récupération du rightController
         rightController = RightPanelController.getInstance();
         rightController.declareMainController(this);
+        rightController.initialize();
         // Récupération du centralController
         centralController = CentralViewController.getInstance();
+        centralController.initialize();
         // Reprise du projet sélectionné
-        if (selectedProjet != null) {
+        if (selectedProjet != null && bddHandler.getProjetFromId(selectedProjet.getId()) != null) {
             selectedProjet = projetList.stream().filter(p -> p.getId().equals(selectedProjet.getId())).toList().get(0);
             listProjets.getSelectionModel().select(selectedProjet);
         }
@@ -125,10 +128,21 @@ public class MainController {
         }
     }
 
-    /* -- Méthodes de MAJ de vues -- */
+    /* -- Méthodes déclenchées par le système -- */
 
     protected void updateCentralView() {
         centralController.updateDisplays();
+    }
+
+    public void launchIntegration(Projet projet) throws IOException {
+        logger.debug("Ouverture de la fenêtre d'intégration d'un nouveau projet.");
+        IntegrationProjetController.loadProjet(projet);
+        FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/integrer_projet.fxml"));
+        Scene integFormScene = new Scene(loader.load(), 600, 400);
+        Stage integrationProjet = new Stage();
+        integrationProjet.setScene(integFormScene);
+        integrationProjet.setTitle("Formulaire");
+        integrationProjet.show();
     }
 
     /**

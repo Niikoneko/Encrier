@@ -8,6 +8,7 @@
     <artifactId>encrier</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <name>encrier</name>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -92,6 +93,29 @@
                 </configuration>
             </plugin>
             <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.niikoneko.encrier.Launcher</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
@@ -101,12 +125,12 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>org.niikoneko.encrier/org.niikoneko.encrier.Main</mainClass>
-                            <launcher>app</launcher>
-                            <jlinkZipName>app</jlinkZipName>
-                            <jlinkImageName>app</jlinkImageName>
+                            <launcher>Encrier</launcher>
+                            <jlinkZipName>Encrier</jlinkZipName>
+                            <jlinkImageName>Encrier</jlinkImageName>
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
-                            <noHeaderFiles>true</noHeaderFiles>
+                            <noHeaderFiles>false</noHeaderFiles>
                         </configuration>
                     </execution>
                 </executions>
