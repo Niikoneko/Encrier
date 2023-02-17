@@ -87,8 +87,11 @@ public class RightPanelController {
                 currentProjet.getNom() + "\" ?");
         message.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
-                bddHandler.deleteProjet(currentProjet);
-                mainController.initialize();
+                String ret = bddHandler.deleteProjet(currentProjet);
+                if (ret.isEmpty())
+                    mainController.initialize();
+                else
+                    errorLabel.setText(ret);
             }
         });
     }
