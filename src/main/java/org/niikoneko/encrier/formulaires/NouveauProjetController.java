@@ -4,13 +4,14 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import org.niikoneko.encrier.MainController;
 import org.niikoneko.encrier.data.DataConnector;
+import org.niikoneko.encrier.jpa.Projet;
 import org.niikoneko.encrier.jpa.TypeProjet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
  * Controller pour le formulaire de nouveau projet
  * @author Niikoneko
  * @since 2023/01
- * @version 1.0
+ * @version 1.1
  */
 public class NouveauProjetController {
 
@@ -28,16 +29,15 @@ public class NouveauProjetController {
     public static MainController controller;
 
     @FXML
-    ChoiceBox<TypeProjet> typeProjet;
+    private ChoiceBox<TypeProjet> typeProjet;
     @FXML
-    TextField nomProjet;
+    private TextField nomProjet;
     @FXML
-    TextArea descriptionProjet;
+    private TextArea descriptionProjet;
     @FXML
-    Button creer;
+    private CheckBox triggerIntegration;
     @FXML
-    Button annuler;
-
+    private Button annuler;
     @FXML
     Label errorLabel;
 
@@ -49,19 +49,23 @@ public class NouveauProjetController {
     }
 
     @FXML
-    protected void onCreerClick() {
+    protected void onCreerClick() throws IOException {
         // Verification préalable
         if (nomProjet.getText().isEmpty() || typeProjet.getValue() == null) {
             errorLabel.setText("Vous devez renseigner un type et un nom de projet.");
             return;
         }
         // Création du projet
+        Projet newProjet = new Projet(typeProjet.getValue(), nomProjet.getText(), descriptionProjet.getText());
         DataConnector bddHandler = new DataConnector();
-        logger.debug("Création du projet " + nomProjet.getText());
-        String error = bddHandler.createProjet(typeProjet.getValue(), nomProjet.getText(), descriptionProjet.getText());
+        logger.debug("Création du projet " + newProjet.getNom());
+        String error = bddHandler.createOrUpdateProjet(newProjet);
         if (error.isEmpty()) {
             Stage current = (Stage) annuler.getScene().getWindow();
             controller.initialize();
+            if (triggerIntegration.isSelected()) {
+                controller.launchIntegration(bddHandler. getProjetFromNom(newProjet.getNom()));
+            }
             current.close();
         } else {
             errorLabel.setText("Erreur de création du projet : " + error);

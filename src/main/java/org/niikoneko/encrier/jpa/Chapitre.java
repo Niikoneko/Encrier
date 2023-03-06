@@ -2,8 +2,6 @@ package org.niikoneko.encrier.jpa;
 
 public class Chapitre {
 
-    public static final String table = "chapitre";
-
     private Long id;
 
     private Projet projet;
