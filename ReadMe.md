@@ -20,9 +20,12 @@ communauté fondatrice du projet.
 
 Par ordre de priorité
 
-- Ajout d'un module de chapitres
-- Ajout d'un mode sombre
 - Mise en place d'un installer Windows (Inno Setup)
+- Ajout d'un module de chapitres
+- Ajout d'un module réécriture pour tracer son avancement
+- Ajout d'une estimation de fin de réécriture en fonction de l'avancement
+- Ajout du suivi des variations de nombre de mots en réécriture
+- Ajout d'un mode sombre
 - Mise en place d'un packaging MacOS (.pkg)
 
 En attente de retours utilisateurs
