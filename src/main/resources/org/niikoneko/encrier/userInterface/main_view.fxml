@@ -48,7 +48,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="650.0" minWidth="1000.0" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.niikoneko.encrier.MainController">
+<VBox minHeight="650.0" minWidth="1000.0" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.niikoneko.encrier.userInterface.MainController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -64,23 +64,11 @@
             <MenuItem fx:id="quitter" mnemonicParsing="false" onAction="#onQuitterClick" text="Quitter" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Edition">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
         <Menu mnemonicParsing="false" text="Aide">
           <items>
-            <MenuItem fx:id="aPropos" mnemonicParsing="false" text="A propos de l'application..." />
+            <MenuItem fx:id="probleme" mnemonicParsing="false" onAction="#onProblemeClick" text="Signaler un problème..." />
+                  <MenuItem fx:id="avis" mnemonicParsing="false" onAction="#onContactClick" text="Donner son avis..." />
+                  <MenuItem fx:id="aPropos" mnemonicParsing="false" onAction="#onInfoClick" text="A propos de l'application..." />
           </items>
         </Menu>
       </menus>

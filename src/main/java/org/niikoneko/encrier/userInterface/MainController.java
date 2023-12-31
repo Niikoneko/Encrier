@@ -1,4 +1,4 @@
-package org.niikoneko.encrier;
+package org.niikoneko.encrier.userInterface;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -117,6 +117,39 @@ public class MainController {
         System.exit(0);
     }
 
+    @FXML
+    protected void onProblemeClick() {
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        message.setContentText("Pas encore implémenté");
+        message.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                logger.info("L'utilisateur a bien vu qu'il ne pouvait pas signaler son problème");
+            }
+        });
+    }
+
+    @FXML
+    protected void onContactClick() {
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        message.setContentText("Pas encore implémenté");
+        message.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                logger.info("L'utilisateur a bien vu qu'il ne pouvait pas contacter le développeur");
+            }
+        });
+    }
+
+    @FXML
+    protected void onInfoClick() {
+        Alert message = new Alert(Alert.AlertType.INFORMATION);
+        message.setContentText("Pas encore implémenté");
+        message.showAndWait().ifPresent(rs -> {
+            if (rs == ButtonType.OK) {
+                logger.info("L'utilisateur a bien vu qu'il ne pouvait pas avoir plus d'informations");
+            }
+        });
+    }
+
     /* -- Méthodes sur liste de projet -- */
 
     @FXML
@@ -153,7 +186,7 @@ public class MainController {
         return instance;
     }
 
-    protected void setVersion(String version, String leftText) {
+    public void setVersion(String version, String leftText) {
         versionText.setText(version);
         leftBottomText.setText(leftText);
     }

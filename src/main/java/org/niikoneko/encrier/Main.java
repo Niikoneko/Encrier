@@ -1,6 +1,8 @@
 package org.niikoneko.encrier;
 
+import javafx.scene.image.Image;
 import org.niikoneko.encrier.data.DataConnector;
+import org.niikoneko.encrier.userInterface.MainController;
 import org.slf4j.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -41,6 +43,7 @@ public class Main extends javafx.application.Application {
         stage.setMinHeight(650);
         stage.setMinWidth(1200);
         stage.setMaximized(true);
+        stage.getIcons().add(new Image("icon_Encrier.png"));
         stage.show();
         MainController mainController = MainController.getInstance();
         mainController.setVersion(version, "Snapshot - Travail en cours");

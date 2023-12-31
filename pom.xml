@@ -6,9 +6,9 @@
 
     <groupId>org.niikoneko</groupId>
     <artifactId>encrier</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>encrier</name>
-    <packaging>jar</packaging>
+    <!--<packaging>jlink</packaging>-->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -134,6 +134,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jlink-plugin</artifactId>
+                <version>3.1.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <!-- configuration elements goes here -->
+                </configuration>
             </plugin>
         </plugins>
     </build>

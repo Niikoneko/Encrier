@@ -1,4 +1,4 @@
-package org.niikoneko.encrier;
+package org.niikoneko.encrier.userInterface;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

@@ -11,8 +11,8 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>/logs/encrier-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <maxFileSize>1MB</maxFileSize>
-            <maxHistory>1</maxHistory>
-            <totalSizeCap>1GB</totalSizeCap>
+            <maxHistory>5</maxHistory>
+            <totalSizeCap>10MB</totalSizeCap>
         </rollingPolicy>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>

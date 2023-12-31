@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.niikoneko.encrier.MainController;
+import org.niikoneko.encrier.userInterface.MainController;
 import org.niikoneko.encrier.data.DataConnector;
 import org.niikoneko.encrier.jpa.Projet;
 import org.niikoneko.encrier.jpa.TypeProjet;
