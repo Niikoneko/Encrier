@@ -124,6 +124,7 @@ public class MainController {
 
     @FXML
     protected void onProblemeClick() {
+        //TODO L'interface de signalement de problèmes, intégration avec GitHub issues à voir
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         message.setContentText("Pas encore implémenté");
         message.showAndWait().ifPresent(rs -> {
@@ -134,12 +135,13 @@ public class MainController {
     }
 
     @FXML
-    protected void onContactClick() {
+    protected void onAvisClick() {
+        //TODO L'interface pour indiquer comment donner son avis : GForm à priori
         Alert message = new Alert(Alert.AlertType.INFORMATION);
         message.setContentText("Pas encore implémenté");
         message.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
-                logger.info("L'utilisateur a bien vu qu'il ne pouvait pas contacter le développeur");
+                logger.info("L'utilisateur a bien vu qu'il ne pouvait pas donner son avis");
             }
         });
     }
