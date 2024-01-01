@@ -2,9 +2,11 @@ package org.niikoneko.encrier.userInterface;
 
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.ValueAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.util.StringConverter;
 import org.niikoneko.encrier.data.DataConnector;
 import org.niikoneko.encrier.jpa.Projet;
 import org.niikoneko.encrier.jpa.ProjetMots;
@@ -13,9 +15,10 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Objects;
 
 public class CentralViewController {
 
@@ -38,7 +41,7 @@ public class CentralViewController {
     @FXML
     private Label temps;
     @FXML
-    private LineChart<String, Long> graphiqueNbMots;
+    private LineChart<Number, Long> graphiqueNbMots;
 
 
     public void initialize() {
@@ -48,6 +51,18 @@ public class CentralViewController {
         mots.setText("------ Mots");
         temps.setText("--j  --:-- passés");
         cachePane.setVisible(true);
+        ValueAxis<Number> axis = (ValueAxis<Number>) graphiqueNbMots.getXAxis();
+        axis.setTickLabelFormatter(new StringConverter<>() {
+            @Override
+            public String toString(Number aLong) {
+                return LocalDate.ofEpochDay(aLong.longValue()).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+            }
+
+            @Override
+            public Long fromString(String s) {
+                return null;
+            }
+        });
     }
 
     /**
@@ -71,7 +86,7 @@ public class CentralViewController {
             // Nombre de mots / temps
             graphiqueNbMots.getData().clear();
             graphiqueNbMots.setAnimated(false);
-            graphiqueNbMots.getData().add(createNbMotsSeries());
+            graphiqueNbMots.getData().add(createNbMotsSeries((ValueAxis<Number>) graphiqueNbMots.getXAxis()));
         } else {
             titre.setText("");
             description.setText("");
@@ -80,8 +95,8 @@ public class CentralViewController {
         }
     }
 
-    private XYChart.Series<String, Long> createNbMotsSeries() {
-        XYChart.Series<String, Long> evolutionNbMots = new XYChart.Series<>();
+    private XYChart.Series<Number, Long> createNbMotsSeries(ValueAxis<Number> axeX) {
+        XYChart.Series<Number, Long> evolutionNbMots = new XYChart.Series<>();
         evolutionNbMots.setName("Nombre de mots du projet " + currentProjet.getNom());
         List<ProjetMots> rawEntries = bddHandler.getAllProjetMotsFromProjet(currentProjet);
         long cumulNbMots = 0;
@@ -89,14 +104,23 @@ public class CentralViewController {
         for (ProjetMots session : rawEntries) {
             if (lastDate == null) {
                 lastDate = session.getEntryDate();
+                axeX.setLowerBound(lastDate.toEpochDay());
             } else if (session.getEntryDate().isAfter(lastDate)) {
-                evolutionNbMots.getData().add(new XYChart.Data<>(lastDate.toString(), cumulNbMots));
+                evolutionNbMots.getData().add(new XYChart.Data<>(
+                        lastDate.toEpochDay(), cumulNbMots));
                 lastDate = session.getEntryDate();
             }
             cumulNbMots += session.getNombreMots();
         }
-        evolutionNbMots.getData().add(new XYChart.Data<>(
-                Objects.requireNonNullElseGet(lastDate, LocalDate::now).toString(), cumulNbMots));
+        if (lastDate == null) {
+            lastDate = LocalDate.now();
+            evolutionNbMots.getData().add(new XYChart.Data<>(lastDate.toEpochDay(), cumulNbMots));
+            axeX.setLowerBound(lastDate.minusDays(10).toEpochDay());
+            axeX.setUpperBound(lastDate.plusDays(10).toEpochDay());
+        } else {
+            evolutionNbMots.getData().add(new XYChart.Data<>(lastDate.toEpochDay(), cumulNbMots));
+            axeX.setUpperBound(lastDate.toEpochDay());
+        }
         return evolutionNbMots;
     }
 

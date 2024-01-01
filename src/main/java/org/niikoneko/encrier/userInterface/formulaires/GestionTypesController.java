@@ -1,4 +1,4 @@
-package org.niikoneko.encrier.formulaires;
+package org.niikoneko.encrier.userInterface.formulaires;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;

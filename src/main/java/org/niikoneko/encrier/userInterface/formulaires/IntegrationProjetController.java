@@ -1,4 +1,4 @@
-package org.niikoneko.encrier.formulaires;
+package org.niikoneko.encrier.userInterface.formulaires;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

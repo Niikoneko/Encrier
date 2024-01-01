@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
@@ -50,7 +49,7 @@
             <Separator prefWidth="1000.0" />
             <LineChart fx:id="graphiqueNbMots" prefHeight="300.0">
               <xAxis>
-                <CategoryAxis label="Date" side="BOTTOM" />
+                <NumberAxis autoRanging="false" label="Date" side="BOTTOM" tickUnit="10.0" />
               </xAxis>
               <yAxis>
                 <NumberAxis label="Nb mots" side="LEFT" />

@@ -36,7 +36,7 @@ public class Main extends javafx.application.Application {
         logger.info(version);
 
         // Démarrage de l'appli
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main_view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("userInterface/main_view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
         stage.setTitle("Encrier");
         stage.setScene(scene);
