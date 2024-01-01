@@ -20,6 +20,11 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controller principal de l'application, gère les menus et les updates globaux d'IHM
+ * @author Niikoneko
+ * @since 2023/01
+ */
 public class MainController {
 
     private static MainController instance;
@@ -140,14 +145,13 @@ public class MainController {
     }
 
     @FXML
-    protected void onInfoClick() {
-        Alert message = new Alert(Alert.AlertType.INFORMATION);
-        message.setContentText("Pas encore implémenté");
-        message.showAndWait().ifPresent(rs -> {
-            if (rs == ButtonType.OK) {
-                logger.info("L'utilisateur a bien vu qu'il ne pouvait pas avoir plus d'informations");
-            }
-        });
+    protected void onInfoClick() throws IOException {
+        FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/a_propos.fxml"));
+        Scene projetFormScene = new Scene(loader.load(), 600, 400);
+        Stage nouveauProjet = new Stage();
+        nouveauProjet.setScene(projetFormScene);
+        nouveauProjet.setTitle("Information");
+        nouveauProjet.show();
     }
 
     /* -- Méthodes sur liste de projet -- */

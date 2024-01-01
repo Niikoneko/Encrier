@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.niikoneko.encrier.userInterface.formulaires.AProposController">
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -27,7 +26,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Label>
-            <Hyperlink fx:id="githubPageLink" text="Page Github d'encrier">
+            <Hyperlink fx:id="githubPageLink" onAction="#onGitHubClick" text="Page Github d'encrier">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
@@ -35,7 +34,7 @@
                   <Label text="Github de l'application :" />
                </graphic>
             </Hyperlink>
-            <Hyperlink fx:id="instagramLink" text="Instagram d'auteur">
+            <Hyperlink fx:id="instagramLink" onAction="#onInstagramClick" text="Instagram d'auteur">
                <graphic>
                   <Label text="Instagram de Niikoneko :" />
                </graphic>
@@ -43,7 +42,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Hyperlink>
-            <Hyperlink fx:id="discordLink" text="Rejoindre le discord">
+            <Hyperlink fx:id="discordLink" onAction="#onDiscordClick" text="Rejoindre le discord">
                <graphic>
                   <Label text="Discord du projet :" />
                </graphic>
@@ -51,9 +50,9 @@
                   <Insets bottom="30.0" />
                </VBox.margin>
             </Hyperlink>
-            <Hyperlink fx:id="licenseLink" text="Afficher la licence">
+            <Hyperlink fx:id="licenseLink" onAction="#onLicenseClick" text="Afficher la licence">
                <graphic>
-                  <Label text="Application sous licence LGPL v3." textAlignment="CENTER" />
+                  <Label text="Application sous licence GPL v3 ou toute version ultérieure." textAlignment="CENTER" />
                </graphic>
             </Hyperlink>
          </children>
@@ -62,7 +61,7 @@
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button fx:id="closeButton" mnemonicParsing="false" text="Fermer" />
+          <Button fx:id="closeButton" mnemonicParsing="false" onAction="#onFermerClick" text="Fermer" />
         </buttons>
       </ButtonBar>
    </bottom>

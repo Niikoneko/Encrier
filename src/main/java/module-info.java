@@ -9,6 +9,7 @@ module org.niikoneko.encrier {
     requires org.slf4j;
     requires org.hsqldb;
     requires java.sql;
+    requires java.desktop;
 
     opens org.niikoneko.encrier to javafx.fxml;
     opens org.niikoneko.encrier.userInterface.formulaires to javafx.fxml;
