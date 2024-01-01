@@ -1,8 +1,9 @@
 # Application Encrier
 
-Un gestionnaire open-source en client lourd
-de projets d'écriture basé sur l'idée de 
-l'application NaNoWriMo.
+[comment]: <> (TODO : Refaire ce md pour clarifier)
+
+Un gestionnaire open-source en client lourd de projets d'écriture basé 
+sur l'idée de l'application NaNoWriMo.
 
 ## Versions
 
@@ -10,7 +11,7 @@ l'application NaNoWriMo.
 
 MVP présenté en privé aux membres de la 
 communauté fondatrice du projet.
-- Application fonctionnelle sur Mac et Windows en .jar
+- Application fonctionnelle sur Windows en .jar
 - Possibilité d'ajouter un projet d'écriture
 - Possibilité de gérer les types de projet
 - Possibilité de tracer le nombre de mots écrits par jour
