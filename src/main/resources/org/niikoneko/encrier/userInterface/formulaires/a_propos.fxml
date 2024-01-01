@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="À propos d'Encrier">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="50.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="Application open-source conçue, réalisée et distribuée par Niikoneko.">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Label>
+            <Hyperlink fx:id="githubPageLink" text="Page Github d'encrier">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <graphic>
+                  <Label text="Github de l'application :" />
+               </graphic>
+            </Hyperlink>
+            <Hyperlink fx:id="instagramLink" text="Instagram d'auteur">
+               <graphic>
+                  <Label text="Instagram de Niikoneko :" />
+               </graphic>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Hyperlink>
+            <Hyperlink fx:id="discordLink" text="Rejoindre le discord">
+               <graphic>
+                  <Label text="Discord du projet :" />
+               </graphic>
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
+            </Hyperlink>
+            <Hyperlink fx:id="licenseLink" text="Afficher la licence">
+               <graphic>
+                  <Label text="Application sous licence LGPL v3." textAlignment="CENTER" />
+               </graphic>
+            </Hyperlink>
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <buttons>
+          <Button fx:id="closeButton" mnemonicParsing="false" text="Fermer" />
+        </buttons>
+      </ButtonBar>
+   </bottom>
+   <padding>
+      <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+   </padding>
+</BorderPane>
