@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.niikoneko.encrier.data.DataConnector;
 import org.niikoneko.encrier.userInterface.formulaires.IntegrationProjetController;
@@ -48,6 +49,7 @@ public class MainController {
     private Label versionText;
     @FXML
     private Label leftBottomText;
+    private Image appliIcon;
 
     public void initialize() {
         instance = this;
@@ -79,6 +81,7 @@ public class MainController {
         Scene projetFormScene = new Scene(loader.load(), 600, 400);
         Stage nouveauProjet = new Stage();
         nouveauProjet.setScene(projetFormScene);
+        nouveauProjet.getIcons().add(appliIcon);
         nouveauProjet.setTitle("Formulaire");
         nouveauProjet.show();
     }
@@ -101,6 +104,7 @@ public class MainController {
         Scene gestionTypesScene = new Scene(loader.load(), 700, 400);
         Stage gestionTypes = new Stage();
         gestionTypes.setScene(gestionTypesScene);
+        gestionTypes.getIcons().add(appliIcon);
         gestionTypes.setTitle("Gestion des types de projet");
         gestionTypes.show();
     }
@@ -135,25 +139,25 @@ public class MainController {
     }
 
     @FXML
-    protected void onAvisClick() {
-        //TODO L'interface pour indiquer comment donner son avis : GForm à priori
-        Alert message = new Alert(Alert.AlertType.INFORMATION);
-        message.setContentText("Pas encore implémenté");
-        message.showAndWait().ifPresent(rs -> {
-            if (rs == ButtonType.OK) {
-                logger.info("L'utilisateur a bien vu qu'il ne pouvait pas donner son avis");
-            }
-        });
+    protected void onAvisClick() throws IOException {
+        FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/avis_appli.fxml"));
+        Scene avisScene = new Scene(loader.load(), 600, 400);
+        Stage donnerAvis = new Stage();
+        donnerAvis.setScene(avisScene);
+        donnerAvis.getIcons().add(appliIcon);
+        donnerAvis.setTitle("Information");
+        donnerAvis.show();
     }
 
     @FXML
     protected void onInfoClick() throws IOException {
         FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/a_propos.fxml"));
-        Scene projetFormScene = new Scene(loader.load(), 600, 400);
-        Stage nouveauProjet = new Stage();
-        nouveauProjet.setScene(projetFormScene);
-        nouveauProjet.setTitle("Information");
-        nouveauProjet.show();
+        Scene infoScene = new Scene(loader.load(), 600, 400);
+        Stage aPropos = new Stage();
+        aPropos.setScene(infoScene);
+        aPropos.getIcons().add(appliIcon);
+        aPropos.setTitle("Information");
+        aPropos.show();
     }
 
     /* -- Méthodes sur liste de projet -- */
@@ -180,6 +184,7 @@ public class MainController {
         Scene integFormScene = new Scene(loader.load(), 600, 400);
         Stage integrationProjet = new Stage();
         integrationProjet.setScene(integFormScene);
+        integrationProjet.getIcons().add(appliIcon);
         integrationProjet.setTitle("Formulaire");
         integrationProjet.show();
     }
@@ -192,8 +197,9 @@ public class MainController {
         return instance;
     }
 
-    public void setVersion(String version, String leftText) {
+    public void setParams(String version, String leftText, Image appIcon) {
         versionText.setText(version);
         leftBottomText.setText(leftText);
+        appliIcon = appIcon;
     }
 }

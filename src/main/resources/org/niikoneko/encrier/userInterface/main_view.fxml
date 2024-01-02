@@ -68,7 +68,7 @@
           <items>
             <MenuItem fx:id="probleme" mnemonicParsing="false" onAction="#onProblemeClick" text="Signaler un problème..." />
                   <MenuItem fx:id="avis" mnemonicParsing="false" onAction="#onAvisClick" text="Donner son avis..." />
-                  <MenuItem fx:id="aPropos" mnemonicParsing="false" onAction="#onInfoClick" text="A propos de l'application..." />
+                  <MenuItem fx:id="aPropos" mnemonicParsing="false" onAction="#onInfoClick" text="À propos de l'application..." />
           </items>
         </Menu>
       </menus>

@@ -37,16 +37,17 @@ public class Main extends javafx.application.Application {
 
         // Démarrage de l'appli
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("userInterface/main_view.fxml"));
+        Image icone = new Image("icon_Encrier.png");
         Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
         stage.setTitle("Encrier");
         stage.setScene(scene);
         stage.setMinHeight(650);
         stage.setMinWidth(1200);
         stage.setMaximized(true);
-        stage.getIcons().add(new Image("icon_Encrier.png"));
+        stage.getIcons().add(icone);
         stage.show();
         MainController mainController = MainController.getInstance();
-        mainController.setVersion(version, "Snapshot - Travail en cours");
+        mainController.setParams(version, "Snapshot - Travail en cours", icone);
     }
 
     public static void main(String[] args) {

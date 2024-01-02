@@ -54,7 +54,11 @@
                <graphic>
                   <Label text="Application sous licence GPL v3 ou toute version ultérieure." textAlignment="CENTER" />
                </graphic>
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
             </Hyperlink>
+            <Label text="Si vous souhaitez apporter votre aide au projet, n'hésitez pas à rejoindre le discord ou à me contacter." />
          </children>
       </VBox>
    </center>
