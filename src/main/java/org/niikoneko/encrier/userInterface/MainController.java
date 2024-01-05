@@ -127,15 +127,14 @@ public class MainController {
     }
 
     @FXML
-    protected void onProblemeClick() {
-        //TODO L'interface de signalement de problèmes, intégration avec GitHub issues à voir
-        Alert message = new Alert(Alert.AlertType.INFORMATION);
-        message.setContentText("Pas encore implémenté");
-        message.showAndWait().ifPresent(rs -> {
-            if (rs == ButtonType.OK) {
-                logger.info("L'utilisateur a bien vu qu'il ne pouvait pas signaler son problème");
-            }
-        });
+    protected void onProblemeClick() throws IOException {
+        FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/signaler_bug.fxml"));
+        Scene bugFormScene = new Scene(loader.load(), 600, 500);
+        Stage bugForm = new Stage();
+        bugForm.setScene(bugFormScene);
+        bugForm.getIcons().add(appliIcon);
+        bugForm.setTitle("Formulaire");
+        bugForm.show();
     }
 
     @FXML

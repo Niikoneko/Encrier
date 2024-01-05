@@ -10,6 +10,7 @@ module org.niikoneko.encrier {
     requires org.hsqldb;
     requires java.sql;
     requires java.desktop;
+    requires java.net.http;
 
     opens org.niikoneko.encrier to javafx.fxml;
     opens org.niikoneko.encrier.userInterface.formulaires to javafx.fxml;

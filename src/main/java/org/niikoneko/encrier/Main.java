@@ -64,4 +64,13 @@ public class Main extends javafx.application.Application {
         }
         launch();
     }
+
+    /**
+     * Récupère une propriété sur demande
+     * @param name le nom / la clé de la propriété
+     * @return la valeur associée
+     */
+    public static String getProperty(String name) {
+        return proprietes.getProperty(name);
+    }
 }
