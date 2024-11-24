@@ -11,12 +11,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.niikoneko.encrier.data.DataConnector;
-import org.niikoneko.encrier.userInterface.formulaires.IntegrationProjetController;
-import org.niikoneko.encrier.userInterface.formulaires.NouveauProjetController;
 import org.niikoneko.encrier.jpa.Projet;
 import org.niikoneko.encrier.jpa.TypeProjet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.niikoneko.encrier.userInterface.formulaires.IntegrationProjetController;
+import org.niikoneko.encrier.userInterface.formulaires.NouveauProjetController;
+import org.tinylog.Logger;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,8 +28,6 @@ import java.util.List;
 public class MainController {
 
     private static MainController instance;
-
-    private final static Logger logger = LoggerFactory.getLogger(MainController.class);
 
     private final DataConnector bddHandler = new DataConnector();
 
@@ -73,7 +70,7 @@ public class MainController {
     /* -- Méthodes sur menu -- */
     @FXML
     protected void onNouveauClick() throws IOException {
-        logger.debug("Ouverture de la fenêtre de création d'un nouveau projet");
+        Logger.debug("Ouverture de la fenêtre de création d'un nouveau projet");
         List<TypeProjet> listTypes = bddHandler.getAllTypesProjets();
         NouveauProjetController.loadChoices(listTypes);
         NouveauProjetController.controller = this;
@@ -92,14 +89,14 @@ public class MainController {
         message.setContentText("Pas encore implémenté");
         message.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
-                logger.info("L'utilisateur a bien vu qu'il ne pouvait pas archiver de projet");
+                Logger.info("L'utilisateur a bien vu qu'il ne pouvait pas archiver de projet");
             }
         });
     }
 
     @FXML
     protected void onGestionTypesClick() throws IOException {
-        logger.debug("Ouverture de la fenêtre de gestion des types de projet");
+        Logger.debug("Ouverture de la fenêtre de gestion des types de projet");
         FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/gestion_types.fxml"));
         Scene gestionTypesScene = new Scene(loader.load(), 700, 400);
         Stage gestionTypes = new Stage();
@@ -115,14 +112,14 @@ public class MainController {
         message.setContentText("Pas encore implémenté");
         message.showAndWait().ifPresent(rs -> {
             if (rs == ButtonType.OK) {
-                logger.info("L'utilisateur a bien vu qu'il ne pouvait pas accéder aux paramètres");
+                Logger.info("L'utilisateur a bien vu qu'il ne pouvait pas accéder aux paramètres");
             }
         });
     }
 
     @FXML
     protected void onQuitterClick() {
-        logger.info("Clic sur quitter, sortie de l'application");
+        Logger.info("Clic sur quitter, sortie de l'application");
         System.exit(0);
     }
 
@@ -177,7 +174,7 @@ public class MainController {
     }
 
     public void launchIntegration(Projet projet) throws IOException {
-        logger.debug("Ouverture de la fenêtre d'intégration d'un nouveau projet.");
+        Logger.debug("Ouverture de la fenêtre d'intégration d'un nouveau projet.");
         IntegrationProjetController.loadProjet(projet);
         FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/integrer_projet.fxml"));
         Scene integFormScene = new Scene(loader.load(), 600, 400);

@@ -10,16 +10,13 @@ import org.niikoneko.encrier.data.DataConnector;
 import org.niikoneko.encrier.jpa.Projet;
 import org.niikoneko.encrier.jpa.ProjetMots;
 import org.niikoneko.encrier.utils.NumberFormatter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.tinylog.Logger;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class IntegrationProjetController {
-
-    private static final Logger logger = LoggerFactory.getLogger(NouveauProjetController.class);
 
     private static Projet currentProjet;
 
@@ -107,7 +104,7 @@ public class IntegrationProjetController {
 
     public void onAnnulerClick() {
         Stage current = (Stage) annuler.getScene().getWindow();
-        logger.debug("Intégration du projet {} annulée", currentProjet.getNom());
+        Logger.debug("Intégration du projet {} annulée", currentProjet.getNom());
         current.close();
     }
 

@@ -5,12 +5,11 @@ module org.niikoneko.encrier {
 
     requires org.controlsfx.controls;
     requires org.kordamp.ikonli.javafx;
-    requires ch.qos.logback.classic;
-    requires org.slf4j;
+    requires org.tinylog.api;
     requires org.hsqldb;
-    requires java.sql;
     requires java.desktop;
     requires java.net.http;
+    requires java.sql;
 
     opens org.niikoneko.encrier to javafx.fxml;
     opens org.niikoneko.encrier.userInterface.formulaires to javafx.fxml;

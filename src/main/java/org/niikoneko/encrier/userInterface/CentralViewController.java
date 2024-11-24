@@ -10,8 +10,6 @@ import javafx.util.StringConverter;
 import org.niikoneko.encrier.data.DataConnector;
 import org.niikoneko.encrier.jpa.Projet;
 import org.niikoneko.encrier.jpa.ProjetMots;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -23,8 +21,6 @@ import java.util.List;
 public class CentralViewController {
 
     private static CentralViewController instance;
-
-    private final static Logger logger = LoggerFactory.getLogger(RightPanelController.class);
 
     private final DataConnector bddHandler = new DataConnector();
 

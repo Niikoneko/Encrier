@@ -5,8 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.niikoneko.encrier.Main;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.tinylog.Logger;
 
 import java.io.IOException;
 import java.net.URI;
@@ -23,7 +22,6 @@ import java.time.Duration;
  */
 public class SignalerBugController {
 
-    private static final Logger logger = LoggerFactory.getLogger(SignalerBugController.class);
     @FXML
     private Label errorMessage;
     @FXML
@@ -58,7 +56,7 @@ public class SignalerBugController {
         if (!checkData()) return;
         sendProgress.setProgress(0.5);
         progressMessage.setText("Préparation");
-        logger.info("Préparation d'envoi d'un bug");
+        Logger.info("Préparation d'envoi d'un bug");
         String address = "https://api.github.com/repos/" + Main.getProperty("github_owner")
                 + "/" + Main.getProperty("github_repo") + "/issues";
         String data = buildData();
@@ -80,20 +78,25 @@ public class SignalerBugController {
         try {
             HttpResponse<String> response = client.send(issueReq, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() != 201) {
-                logger.error("Réponse reçue en erreur : code HTTP {}, corps de réponse {}", response.statusCode(), response.body());
-                logger.error("Corps de requête envoyé : {}", data);
+                Logger.error("Réponse reçue en erreur : code HTTP {}, corps de réponse {}", response.statusCode(),
+                        response.body());
+                Logger.error("Corps de requête envoyé : {}", data);
+                errorMessage.setText("Erreur lors de l'envoi, code de réponse : " + response.statusCode() +
+                        ". Rendez-vous sur la page du projet pour signaler votre problème.");
             } else {
                 sendProgress.setProgress(1.0);
                 progressMessage.setText("Envoi reçu !");
                 progressMessage.setTextFill(Color.GREEN);
-                logger.info("Bug envoyé");
+                Logger.info("Bug envoyé");
                 flagSent = true;
                 envoi.setText("Fermer");
             }
         } catch (IOException e) {
-            logger.error("Erreur I/O à l'envoi de la requête", e);
+            Logger.error("Erreur I/O à l'envoi de la requête", e);
+            errorMessage.setText("Erreur lors de l'envoi : souci I/O. Veuillez réessayer.");
         } catch (InterruptedException e) {
-            logger.error("Interruption à l'envoi de la requête", e);
+            Logger.error("Interruption à l'envoi de la requête", e);
+            errorMessage.setText("Erreur lors de l'envoi : Interruption du processus. Veuillez réessayer.");
         }
     }
 
@@ -122,11 +125,10 @@ public class SignalerBugController {
      * @return le bloc data construit
      */
     private String buildData() {
-        String builder = "{\"title\":\"" +
+        return "{\"title\":\"" +
                 titre.getText() +
                 "\",\"body\":\"" +
                 description.getText() +
                 "\",\"assignees\":[\"Niikoneko\"],\"labels\":[\"bug\"]}";
-        return builder;
     }
 }

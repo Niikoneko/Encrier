@@ -3,8 +3,7 @@ package org.niikoneko.encrier.userInterface.formulaires;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.tinylog.Logger;
 
 import java.awt.*;
 import java.io.File;
@@ -20,7 +19,6 @@ import java.net.URL;
  */
 public class AProposController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AProposController.class);
     @FXML
     private Button closeButton;
 
@@ -35,9 +33,9 @@ public class AProposController {
         try {
             Desktop.getDesktop().browse(new URL("https://github.com/Niikoneko/Encrier").toURI());
         } catch (IOException e) {
-            logger.error("Erreur IO à l'ouverture du lien :", e);
+            Logger.error("Erreur IO à l'ouverture du lien :", e);
         } catch (URISyntaxException e) {
-            logger.error("Erreur de syntaxe URL :", e);
+            Logger.error("Erreur de syntaxe URL :", e);
         }
     }
 
@@ -46,9 +44,9 @@ public class AProposController {
         try {
             Desktop.getDesktop().browse(new URL("https://www.instagram.com/_niikoneko_?igsh=azF2eW9sYm5seGQw").toURI());
         } catch (IOException e) {
-            logger.error("Erreur IO à l'ouverture du lien :", e);
+            Logger.error("Erreur IO à l'ouverture du lien :", e);
         } catch (URISyntaxException e) {
-            logger.error("Erreur de syntaxe URL :", e);
+            Logger.error("Erreur de syntaxe URL :", e);
         }
     }
 
@@ -57,18 +55,18 @@ public class AProposController {
         try {
             Desktop.getDesktop().browse(new URL("https://discord.gg/DyQN5NYEXh").toURI());
         } catch (IOException e) {
-            logger.error("Erreur IO à l'ouverture du lien :", e);
+            Logger.error("Erreur IO à l'ouverture du lien :", e);
         } catch (URISyntaxException e) {
-            logger.error("Erreur de syntaxe URL :", e);
+            Logger.error("Erreur de syntaxe URL :", e);
         }
     }
 
     @FXML
     protected void onLicenseClick() {
         try {
-            Desktop.getDesktop().open(new File("Encrier_License.md"));
+            Desktop.getDesktop().open(new File("org/niikoneko/encrier/Encrier_License.md"));
         } catch (IOException e) {
-            logger.error("Erreur IO à l'ouverture du fichier de licence :", e);
+            Logger.error("Erreur IO à l'ouverture du fichier de licence :", e);
         }
     }
 }

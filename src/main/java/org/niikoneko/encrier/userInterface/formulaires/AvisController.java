@@ -3,8 +3,7 @@ package org.niikoneko.encrier.userInterface.formulaires;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.tinylog.Logger;
 
 import java.awt.*;
 import java.io.IOException;
@@ -19,7 +18,6 @@ import java.net.URL;
  */
 public class AvisController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AvisController.class);
     @FXML
     private Button closeButton;
 
@@ -34,9 +32,9 @@ public class AvisController {
         try {
             Desktop.getDesktop().browse(new URL("https://forms.gle/nrU1kp33JVh24JiG7").toURI());
         } catch (IOException e) {
-            logger.error("Erreur IO à l'ouverture du lien :", e);
+            Logger.error("Erreur IO à l'ouverture du lien :", e);
         } catch (URISyntaxException e) {
-            logger.error("Erreur de syntaxe URL :", e);
+            Logger.error("Erreur de syntaxe URL :", e);
         }
     }
 }

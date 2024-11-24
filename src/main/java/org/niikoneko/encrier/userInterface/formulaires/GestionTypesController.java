@@ -7,14 +7,11 @@ import javafx.stage.Stage;
 import org.niikoneko.encrier.data.DataConnector;
 import org.niikoneko.encrier.jpa.Projet;
 import org.niikoneko.encrier.jpa.TypeProjet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.tinylog.Logger;
 
 import java.util.List;
 
 public class GestionTypesController {
-
-    private static final Logger logger = LoggerFactory.getLogger(GestionTypesController.class);
 
     private final DataConnector bddHandler = new DataConnector();
 
@@ -87,7 +84,7 @@ public class GestionTypesController {
             message.setContentText("Êtes-vous sûr de vouloir supprimer ce type de projet ?");
             message.showAndWait().ifPresent(rs -> {
                 if (rs == ButtonType.OK) {
-                    logger.debug("Suppression du type de projet {}", selected);
+                    Logger.debug("Suppression du type de projet {}", selected);
                     errorLabel.setText(bddHandler.deleteTypeProjet(selected));
                 }
             });
@@ -99,7 +96,7 @@ public class GestionTypesController {
     @FXML
     public void onQuitterClick() {
         Stage current = (Stage) quitter.getScene().getWindow();
-        logger.debug("Fermeture de la fenêtre d'édition des types de projet");
+        Logger.debug("Fermeture de la fenêtre d'édition des types de projet");
         current.close();
     }
 }

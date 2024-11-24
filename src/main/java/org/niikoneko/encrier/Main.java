@@ -1,27 +1,24 @@
 package org.niikoneko.encrier;
 
-import javafx.scene.image.Image;
-import org.niikoneko.encrier.data.DataConnector;
-import org.niikoneko.encrier.userInterface.MainController;
-import org.slf4j.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import org.slf4j.LoggerFactory;
+import org.niikoneko.encrier.data.DataConnector;
+import org.niikoneko.encrier.userInterface.MainController;
+import org.tinylog.Logger;
 
 import java.io.IOException;
 import java.util.Properties;
 
 public class Main extends javafx.application.Application {
 
-    private final static Logger logger = LoggerFactory.getLogger(Main.class);
-
     private final static Properties proprietes = new Properties();
 
     @Override
     public void start(Stage stage) throws IOException {
         // Informations de base
-        proprietes.load(this.getClass().getClassLoader().getResourceAsStream(".properties"));
+        proprietes.load(this.getClass().getResourceAsStream("/org/niikoneko/encrier/encrier.properties"));
         String startupMessage = """
                   |   |     oooooooooooo                                 o8o
                   |   |     `888'     `8                                 `"'
@@ -31,9 +28,9 @@ public class Main extends javafx.application.Application {
                    \\|/       888       o  888   888  888   .o8  888      888  888    .o  888
                     '       o888ooooood8 o888o o888o `Y8bod8P' d888b    o888o `Y8bod8P' d888b
                 """;
-        logger.info("\n" + startupMessage);
+        Logger.info("\n" + startupMessage);
         String version = "Version " + proprietes.getProperty("version");
-        logger.info(version);
+        Logger.info(version);
 
         // Démarrage de l'appli
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("userInterface/main_view.fxml"));
@@ -47,20 +44,20 @@ public class Main extends javafx.application.Application {
         stage.getIcons().add(icone);
         stage.show();
         MainController mainController = MainController.getInstance();
-        mainController.setParams(version, "Snapshot - Travail en cours", icone);
+        mainController.setParams(version, "Encrier - par Niikoneko", icone);
     }
 
     public static void main(String[] args) {
         // Connection BDD
         DataConnector bddHandler = new DataConnector();
-        if (!bddHandler.Connectto()) {
-            logger.info("Pas de BDD détectée, installation.");
+        if (!bddHandler.ConnectTo()) {
+            Logger.info("Pas de BDD détectée, installation.");
             boolean installOk = bddHandler.bddInstall();
             if (!installOk) {
-                logger.error("Erreur d'installation de la BDD.");
+                Logger.error("Erreur d'installation de la BDD.");
                 System.exit(1);
             }
-            logger.info("BDD installée");
+            Logger.info("BDD installée");
         }
         launch();
     }

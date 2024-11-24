@@ -8,8 +8,7 @@ import org.niikoneko.encrier.userInterface.MainController;
 import org.niikoneko.encrier.data.DataConnector;
 import org.niikoneko.encrier.jpa.Projet;
 import org.niikoneko.encrier.jpa.TypeProjet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.tinylog.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,8 +21,6 @@ import java.util.List;
  * @version 1.1
  */
 public class NouveauProjetController {
-
-    private static final Logger logger = LoggerFactory.getLogger(NouveauProjetController.class);
 
     private static final List<TypeProjet> typesList = new ArrayList<>();
     public static MainController controller;
@@ -58,7 +55,7 @@ public class NouveauProjetController {
         // Création du projet
         Projet newProjet = new Projet(typeProjet.getValue(), nomProjet.getText(), descriptionProjet.getText());
         DataConnector bddHandler = new DataConnector();
-        logger.debug("Création du projet " + newProjet.getNom());
+        Logger.debug("Création du projet " + newProjet.getNom());
         String error = bddHandler.createOrUpdateProjet(newProjet);
         if (error.isEmpty()) {
             Stage current = (Stage) annuler.getScene().getWindow();
@@ -75,7 +72,7 @@ public class NouveauProjetController {
     @FXML
     protected void onAnnulerClick() {
         Stage current = (Stage) annuler.getScene().getWindow();
-        logger.debug("Création de nouveau projet annulée");
+        Logger.debug("Création de nouveau projet annulée");
         current.close();
     }
 

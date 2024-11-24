@@ -3,8 +3,7 @@ package org.niikoneko.encrier.data;
 import org.niikoneko.encrier.jpa.Projet;
 import org.niikoneko.encrier.jpa.ProjetMots;
 import org.niikoneko.encrier.jpa.TypeProjet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.tinylog.Logger;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,13 +21,11 @@ import java.util.List;
  */
 public class DataConnector {
 
-    private final static Logger logger = LoggerFactory.getLogger(DataConnector.class);
-
     /**
      * Fonction de test d'existence de la BDD
      * @return true si la BDD existe
      */
-    public boolean Connectto() {
+    public boolean ConnectTo() {
         try {
             Class.forName("org.hsqldb.jdbc.JDBCDriver");
             Connection conn = DriverManager.getConnection(
@@ -47,7 +44,7 @@ public class DataConnector {
     public List<TypeProjet> getAllTypesProjets() {
         String query = "SELECT * FROM \"type_projet\";";
         try {
-            List<TypeProjet> resultat = new ArrayList<TypeProjet>();
+            List<TypeProjet> resultat = new ArrayList<>();
             ResultSet result = executeQuery(query);
             while (result.next()) {
                 resultat.add(new TypeProjet(result.getLong("id"),
@@ -56,7 +53,7 @@ public class DataConnector {
             }
             return resultat;
         } catch (SQLException e) {
-            logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
+            Logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
         }
         return null;
     }
@@ -78,7 +75,7 @@ public class DataConnector {
                 return resultat;
             }
         } catch (SQLException e) {
-            logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
+            Logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
         }
         return null;
     }
@@ -102,7 +99,7 @@ public class DataConnector {
             }
             return resultat;
         } catch (SQLException e) {
-            logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
+            Logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
         }
         return null;
     }
@@ -126,7 +123,7 @@ public class DataConnector {
             }
             return resultat;
         } catch (SQLException e) {
-            logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
+            Logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
         }
         return null;
     }
@@ -151,7 +148,7 @@ public class DataConnector {
                 return resultat;
             }
         } catch (SQLException e) {
-            logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
+            Logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
         }
         return null;
     }
@@ -176,14 +173,14 @@ public class DataConnector {
                 return resultat;
             }
         } catch (SQLException e) {
-            logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
+            Logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
         }
         return null;
     }
 
     public List<ProjetMots> getAllProjetMotsFromProjet(Projet projet) {
         String query = "SELECT * FROM \"projet_mots\"" +
-                "WHERE \"projet_id\" = " + projet.getId() + "" +
+                "WHERE \"projet_id\" = " + projet.getId() + " " +
                 "ORDER BY \"entry_date\" ASC;";
         List<ProjetMots> resultats = new ArrayList<>();
         try {
@@ -197,7 +194,7 @@ public class DataConnector {
                 ));
             }
         } catch (SQLException e) {
-            logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
+            Logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
         }
         return resultats;
     }
@@ -210,7 +207,7 @@ public class DataConnector {
             if (result.next())
                 return result.getInt("mots");
         } catch (SQLException e) {
-            logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
+            Logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
         }
         return 0;
     }
@@ -223,7 +220,7 @@ public class DataConnector {
             if (result.next() && !(result.getString("temps") == null))
                 return getDurationFromProjetMots(result.getString("temps"));
         } catch (SQLException e) {
-            logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
+            Logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
         }
         return Duration.of(0, ChronoUnit.MINUTES);
     }
@@ -249,7 +246,7 @@ public class DataConnector {
             state.close();
             conn.close();
         } catch (Exception e) {
-            logger.error("Erreur de création de la BDD ", e);
+            Logger.error("Erreur de création de la BDD ", e);
             return false;
         }
         return true;
@@ -261,7 +258,7 @@ public class DataConnector {
      * @return Un texte vide si ok, l'erreur si erreur
      */
     public String createOrUpdateTypeProjet(TypeProjet type) {
-        String query = "";
+        String query;
         if (type.getId() == null) {
             // Création
             query = "INSERT INTO \"type_projet\" (\"nom\", \"description\")" +
@@ -278,10 +275,10 @@ public class DataConnector {
             executeQuery(query);
             return "";
         } catch (SQLIntegrityConstraintViolationException e) {
-            logger.error("Violation de contrainte SQL en création de type de projet : nom unique. Requête : \n {}", query);
+            Logger.error("Violation de contrainte SQL en création de type de projet : nom unique. Requête : \n {}", query);
             return "Un type de projet du même nom existe déjà.";
         } catch (SQLException e) {
-            logger.error("Erreur de création ou MAJ d'un type de projet. Requête : \n {}", query, e);
+            Logger.error("Erreur de création ou MAJ d'un type de projet. Requête : \n {}", query, e);
             return "Erreur inconnue.";
         }
     }
@@ -292,7 +289,7 @@ public class DataConnector {
      * @return Un texte vide si ok, l'erreur si erreur
      */
     public String createOrUpdateProjet(Projet projet) {
-        String query = "";
+        String query;
         if (projet.getId() == null) {
             // Création
              query = "INSERT INTO \"projet\" (\"type_id\", \"nom\", \"description\", \"archive\") " +
@@ -312,10 +309,10 @@ public class DataConnector {
             executeQuery(query);
             return "";
         } catch (SQLIntegrityConstraintViolationException e) {
-            logger.error("Violation de contrainte SQL en création de projet : nom unique. Requête : \n {}", query);
+            Logger.error("Violation de contrainte SQL en création de projet : nom unique. Requête : \n {}", query);
             return "Un projet du même nom existe déjà.";
         } catch (SQLException e) {
-            logger.error("Erreur de création ou MAJ d'un projet. Requête : \n {}", query, e);
+            Logger.error("Erreur de création ou MAJ d'un projet. Requête : \n {}", query, e);
             return "Erreur inconnue.";
         }
     }
@@ -333,7 +330,7 @@ public class DataConnector {
             executeQuery(query);
             return "";
         } catch (SQLException e) {
-            logger.error("Erreur de création d'une session d'écriture. Requête : \n {}", query, e);
+            Logger.error("Erreur de création d'une session d'écriture. Requête : \n {}", query, e);
             return "Erreur inconnue.";
         }
     }
@@ -350,7 +347,7 @@ public class DataConnector {
             executeQuery(query);
             return "";
         } catch (SQLException e) {
-            logger.error("Erreur de suppression d'un type de projet. Requête : \n {}", query, e);
+            Logger.error("Erreur de suppression d'un type de projet. Requête : \n {}", query, e);
             return "Erreur inconnue.";
         }
     }
@@ -367,7 +364,7 @@ public class DataConnector {
             executeQuery(query);
             return "";
         } catch (SQLException e) {
-            logger.error("Erreur de suppression d'un projet. Requête : \n {}", query, e);
+            Logger.error("Erreur de suppression d'un projet. Requête : \n {}", query, e);
             return "Erreur inconnue.";
         }
     }
@@ -389,7 +386,7 @@ public class DataConnector {
             conn.close();
             return result;
         } catch (ClassNotFoundException e) {
-            logger.error("Erreur : JDBC non trouvé. Revoir les paramètres d'installation.");
+            Logger.error("Erreur : JDBC non trouvé. Revoir les paramètres d'installation.");
             throw new RuntimeException(e);
         }
     }
