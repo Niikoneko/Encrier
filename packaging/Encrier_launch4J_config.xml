@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>S:\Dev\Workspace\encrier\target\encrier-1.0.0-SNAPSHOT-jar-with-dependencies.jar</jar>
+  <outfile>S:\Dev\Workspace\encrier\packaging\Encrier.exe</outfile>
+  <errTitle>Encrier</errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>S:\Dev\Workspace\encrier\src\main\resources\icon_Encrier.ico</icon>
+  <jre>
+    <path>C:\Program Files\Zulu\zulu-17\bin</path>
+    <requiresJdk>false</requiresJdk>
+    <requires64Bit>true</requires64Bit>
+    <minVersion></minVersion>
+    <maxVersion></maxVersion>
+  </jre>
+  <versionInfo>
+    <fileVersion>1.0.0.0</fileVersion>
+    <txtFileVersion>1.0.0</txtFileVersion>
+    <fileDescription>Application de suivi de projets d&apos;écriture par Niikoneko</fileDescription>
+    <copyright>Niikoneko</copyright>
+    <productVersion>1.0.0.0</productVersion>
+    <txtProductVersion>1.0.0</txtProductVersion>
+    <productName>Encrier</productName>
+    <companyName></companyName>
+    <internalName>Encrier</internalName>
+    <originalFilename>Encrier.exe</originalFilename>
+    <trademarks></trademarks>
+    <language>FRENCH</language>
+  </versionInfo>
+</launch4jConfig>
