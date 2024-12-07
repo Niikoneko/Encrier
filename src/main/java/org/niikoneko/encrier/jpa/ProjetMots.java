@@ -6,9 +6,9 @@ import java.time.LocalDate;
 
 public class ProjetMots {
 
-    public ProjetMots(long id, Projet projet, LocalDate entryDate, long nombreMots, Duration tempsSession) {
+    public ProjetMots(long id, StageProjet etape, LocalDate entryDate, long nombreMots, Duration tempsSession) {
         this.id = id;
-        this.projet = projet;
+        this.etape = etape;
         this.entryDate = entryDate;
         this.nombreMots = nombreMots;
         this.tempsSession = tempsSession;
@@ -16,13 +16,13 @@ public class ProjetMots {
 
     /**
      * Constructeur pré-création
-     * @param projet Le projet associé
+     * @param etape L'étape projet associée
      * @param entryDate La date de la session d'écriture
      * @param nombreMots Le nombre de mots ajoutés
      * @param tempsSession Le temps de la session
      */
-    public ProjetMots(Projet projet, LocalDate entryDate, long nombreMots, Duration tempsSession) {
-        this.projet = projet;
+    public ProjetMots(StageProjet etape, LocalDate entryDate, long nombreMots, Duration tempsSession) {
+        this.etape = etape;
         this.entryDate = entryDate;
         this.nombreMots = nombreMots;
         this.tempsSession = tempsSession;
@@ -30,7 +30,7 @@ public class ProjetMots {
 
     private Long id;
 
-    private Projet projet;
+    private StageProjet etape;
 
     private LocalDate entryDate;
 
@@ -62,12 +62,12 @@ public class ProjetMots {
         this.entryDate = entryDate;
     }
 
-    public Projet getProjet() {
-        return projet;
+    public StageProjet getStageProjet() {
+        return etape;
     }
 
-    public void setProjet(Projet projet) {
-        this.projet = projet;
+    public void setStageProjet(StageProjet etape) {
+        this.etape = etape;
     }
 
     public Long getId() {

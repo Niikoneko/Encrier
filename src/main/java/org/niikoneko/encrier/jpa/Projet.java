@@ -2,12 +2,12 @@ package org.niikoneko.encrier.jpa;
 
 public class Projet {
 
-    public Projet(Long id, TypeProjet type, String nom, String description, boolean archive) {
+    public Projet(Long id, TypeProjet type, String nom, String description, StageProjet etape) {
         this.id = id;
         this.typeProjet = type;
         this.nom = nom;
         this.description = description;
-        this.archive = archive;
+        this.etape = etape;
     }
 
     /**
@@ -16,11 +16,11 @@ public class Projet {
      * @param nom Le nom du projet
      * @param description Une description du projet
      */
-    public Projet(TypeProjet type, String nom, String description) {
+    public Projet(TypeProjet type, String nom, String description, StageProjet etape) {
         this.typeProjet = type;
         this.nom = nom;
         this.description = description;
-        this.archive = false;
+        this.etape = etape;
     }
 
     private Long id;
@@ -32,14 +32,14 @@ public class Projet {
 
     private String description;
 
-    private Boolean archive;
+    private StageProjet etape;
 
-    public Boolean getAchive() {
-        return archive;
+    public StageProjet getStageProjet() {
+        return etape;
     }
 
-    public Projet setAchive(Boolean achive) {
-        this.archive = achive;
+    public Projet setStageProjet(StageProjet etape) {
+        this.etape = etape;
         return this;
     }
 

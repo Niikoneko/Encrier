@@ -42,15 +42,20 @@ L'application est en version 1.0 - Première version diffusée.
 Cette section est organisée par ordre de priorité.
 
 - Ajout d'un module d'import-export de données
+- Ajout d'étapes de projet gérées comme les types et duplicables
 - Ajout d'un module de chapitres
+- Ajout d'une possibilité de mettre des tracklist et des questions dans les étapes (BL, planif)
+- Tracklist types retours de BL, chapitres, personnages
+- Fiche de BL ?
+- Préparer les étapes avec choix d'usage
+- Ajout de notes de chapitres avec tableaux et listes à puces
 - Ajout d'un module réécriture pour tracer son avancement
 - Ajout d'une estimation de fin de réécriture en fonction de l'avancement
 - Ajout du suivi des variations de nombre de mots en réécriture
 - Ajout d'un mode sombre
 - Mise en place d'un packaging MacOS (.pkg)
 
-Un gestionnaire open-source en client lourd de projets d'écriture basé 
-sur l'idée de l'application NaNoWriMo.
+Un gestionnaire open-source en client lourd de projets d'écriture.
 
 ## Historique des versions
 
@@ -61,8 +66,7 @@ Ajout de logs sur les opérations en base.
 
 ### Version 0.1.0
 
-MVP présenté en privé aux membres de la 
-communauté fondatrice du projet.
+MVP non packagés pour tests et premiers retours.
 - Application fonctionnelle sur Windows en .jar
 - Possibilité d'ajouter un projet d'écriture
 - Possibilité de gérer les types de projet

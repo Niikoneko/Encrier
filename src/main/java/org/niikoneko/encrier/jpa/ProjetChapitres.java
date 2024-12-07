@@ -7,7 +7,7 @@ public class ProjetChapitres {
 
     private Long id;
 
-    private Projet projet;
+    private StageProjet etapeProjet;
 
     private Chapitre chapitre;
 
@@ -35,16 +35,12 @@ public class ProjetChapitres {
         return chapitre;
     }
 
-    public void setChapitre(Chapitre chapitre) {
-        this.chapitre = chapitre;
+    public StageProjet getStageProjet() {
+        return etapeProjet;
     }
 
-    public Projet getProjet() {
-        return projet;
-    }
-
-    public void setProjet(Projet projet) {
-        this.projet = projet;
+    public void setStageProjet(StageProjet etapeProjet) {
+        this.etapeProjet = etapeProjet;
     }
 
     public Long getId() {

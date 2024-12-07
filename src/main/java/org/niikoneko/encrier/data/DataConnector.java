@@ -1,8 +1,6 @@
 package org.niikoneko.encrier.data;
 
-import org.niikoneko.encrier.jpa.Projet;
-import org.niikoneko.encrier.jpa.ProjetMots;
-import org.niikoneko.encrier.jpa.TypeProjet;
+import org.niikoneko.encrier.jpa.*;
 import org.tinylog.Logger;
 
 import java.nio.file.Files;
@@ -81,6 +79,50 @@ public class DataConnector {
     }
 
     /**
+     * Récupère tous les types d'étapes projet existantes en BDD
+     * @return La liste des types d'étapes projet
+     */
+    public List<TypeProjet> getAllStages() {
+        String query = "SELECT * FROM \"stages\";";
+        try {
+            List<TypeProjet> resultat = new ArrayList<>();
+            ResultSet result = executeQuery(query);
+            while (result.next()) {
+                resultat.add(new TypeProjet(result.getLong("id"),
+                        result.getString("nom"),
+                        result.getString("description")));
+            }
+            return resultat;
+        } catch (SQLException e) {
+            Logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
+        }
+        return null;
+    }
+
+    /**
+     * Récupère un type d'étape projet à partir de son id
+     * @param id L'id du type d'étape projet
+     * @return L'objet Stages associé
+     */
+    public Stages getStagesFromId(long id) {
+        String query = "SELECT * FROM \"stages\" WHERE \"id\" = " + id + ";";
+        try {
+            Stages resultat;
+            ResultSet result = executeQuery(query);
+            if (result.next()) {
+                resultat = new Stages(result.getLong("id"),
+                        result.getString("nom"),
+                        TypesEtapes.fromString(result.getString("type")),
+                        result.getString("description"));
+                return resultat;
+            }
+        } catch (SQLException e) {
+            Logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
+        }
+        return null;
+    }
+
+    /**
      * Récupère tous les projets existants en BDD
      * @return La liste des projets
      */
@@ -91,11 +133,12 @@ public class DataConnector {
             ResultSet result = executeQuery(query);
             while (result.next()) {
                 TypeProjet type = getTypeProjetFromId(result.getLong("type_id"));
+                StageProjet curStage = getStageProjetFromId(result.getLong("stage_id"));
                 resultat.add(new Projet(result.getLong("id"),
                         type,
                         result.getString("nom"),
                         result.getString("description"),
-                        result.getBoolean("archive")));
+                        curStage));
             }
             return resultat;
         } catch (SQLException e) {
@@ -115,11 +158,12 @@ public class DataConnector {
             List<Projet> resultat = new ArrayList<>();
             ResultSet result = executeQuery(query);
             while (result.next()) {
+                StageProjet curStage = getStageProjetFromId(result.getLong("stage_id"));
                 resultat.add(new Projet(result.getLong("id"),
                         type,
                         result.getString("nom"),
                         result.getString("description"),
-                        result.getBoolean("archive")));
+                        curStage));
             }
             return resultat;
         } catch (SQLException e) {
@@ -140,11 +184,12 @@ public class DataConnector {
             ResultSet result = executeQuery(query);
             if (result.next()) {
                 TypeProjet type = getTypeProjetFromId(result.getLong("type_id"));
+                StageProjet curStage = getStageProjetFromId(result.getLong("stage_id"));
                 resultat = new Projet(result.getLong("id"),
                         type,
                         result.getString("nom"),
                         result.getString("description"),
-                        result.getBoolean("archive"));
+                        curStage);
                 return resultat;
             }
         } catch (SQLException e) {
@@ -165,11 +210,12 @@ public class DataConnector {
             ResultSet result = executeQuery(query);
             if (result.next()) {
                 TypeProjet type = getTypeProjetFromId(result.getLong("type_id"));
+                StageProjet curStage = getStageProjetFromId(result.getLong("stage_id"));
                 resultat = new Projet(result.getLong("id"),
                         type,
                         result.getString("nom"),
                         result.getString("description"),
-                        result.getBoolean("archive"));
+                        curStage);
                 return resultat;
             }
         } catch (SQLException e) {
@@ -178,16 +224,42 @@ public class DataConnector {
         return null;
     }
 
-    public List<ProjetMots> getAllProjetMotsFromProjet(Projet projet) {
+    /**
+     * Récupère une étape projet par son id
+     * @param id L'id de l'étape projet
+     * @return L'étape projet possédant cet id
+     */
+    public StageProjet getStageProjetFromId(long id) {
+        String query = "SELECT * FROM \"stage_projet\" WHERE \"id\" = " + id + ";";
+        try {
+            StageProjet resultat;
+            ResultSet result = executeQuery(query);
+            if (result.next()) {
+                Projet projet = getProjetFromId(result.getLong("projet_id"));
+                Stages stage = getStagesFromId(result.getLong("id_stage"));
+                resultat = new StageProjet(result.getLong("id"),
+                        projet,
+                        stage,
+                        result.getInt("ordre"),
+                        result.getString("nom"));
+                return resultat;
+            }
+        } catch (SQLException e) {
+            Logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
+        }
+        return null;
+    }
+
+    public List<ProjetMots> getAllProjetMotsFromStageProjet(StageProjet stageProjet) {
         String query = "SELECT * FROM \"projet_mots\"" +
-                "WHERE \"projet_id\" = " + projet.getId() + " " +
+                "WHERE \"projet_id\" = " + stageProjet.getId() + " " +
                 "ORDER BY \"entry_date\" ASC;";
         List<ProjetMots> resultats = new ArrayList<>();
         try {
             ResultSet result = executeQuery(query);
             while (result.next()) {
                 resultats.add(new ProjetMots(result.getLong("id"),
-                        projet,
+                        stageProjet,
                         result.getDate("entry_date").toLocalDate(),
                         result.getLong("nombre_mots"),
                         getDurationFromProjetMots(result.getString("temps_session"))
@@ -295,14 +367,14 @@ public class DataConnector {
              query = "INSERT INTO \"projet\" (\"type_id\", \"nom\", \"description\", \"archive\") " +
                     "VALUES ('" + projet.getTypeProjet().getId() + "', '" +
                     replaceApostrophes(projet.getNom()) + "', '" +
-                    replaceApostrophes(projet.getDescription()) + "', '" + projet.getAchive() + "');";
+                    replaceApostrophes(projet.getDescription()) + "', '" + projet.getStageProjet().getId() + "');";
         } else {
             // Mise à jour
             query = "UPDATE \"projet\"" +
                     "SET \"type_id\" = '" + projet.getTypeProjet().getId() + "', " +
                     "\"nom\" = '" + replaceApostrophes(projet.getNom()) + "', " +
                     "\"description\" = '" + replaceApostrophes(projet.getDescription()) + "', " +
-                    "\"archive\" = '" + projet.getAchive() + "' " +
+                    "\"archive\" = '" + projet.getStageProjet().getId() + "' " +
                     "WHERE \"id\" = " + projet.getId() + ";";
         }
         try {
@@ -324,7 +396,7 @@ public class DataConnector {
      */
     public String createProjetMots(ProjetMots session) {
         String query = "INSERT INTO \"projet_mots\" (\"projet_id\", \"entry_date\", \"nombre_mots\", \"temps_session\")" +
-                "VALUES ('" + session.getProjet().getId() + "', '" + session.getEntryDate() + "', '" +
+                "VALUES ('" + session.getStageProjet().getId() + "', '" + session.getEntryDate() + "', '" +
                 session.getNombreMots() + "', " +session.getTempsSession().toMinutes() + ");";
         try {
             executeQuery(query);

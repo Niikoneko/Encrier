@@ -94,7 +94,7 @@ public class CentralViewController {
     private XYChart.Series<Number, Long> createNbMotsSeries(ValueAxis<Number> axeX) {
         XYChart.Series<Number, Long> evolutionNbMots = new XYChart.Series<>();
         evolutionNbMots.setName("Nombre de mots du projet " + currentProjet.getNom());
-        List<ProjetMots> rawEntries = bddHandler.getAllProjetMotsFromProjet(currentProjet);
+        List<ProjetMots> rawEntries = bddHandler.getAllProjetMotsFromStageProjet(currentProjet);
         long cumulNbMots = 0;
         LocalDate lastDate = null;
         for (ProjetMots session : rawEntries) {

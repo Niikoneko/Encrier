@@ -12,6 +12,8 @@ public class Chapitre {
 
     private Integer ordre;
 
+    private String notes;
+
     public Integer getOrdre() {
         return ordre;
     }
@@ -34,6 +36,14 @@ public class Chapitre {
 
     public void setChapitreType(String chapitreType) {
         this.chapitreType = chapitreType;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public Projet getProjet() {
