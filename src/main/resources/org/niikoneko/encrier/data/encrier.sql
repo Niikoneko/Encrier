@@ -6,7 +6,7 @@ CREATE TABLE "type_projet" (
    "description" VARCHAR(1000)
 );
 
-CREATE TABLE "stages" (
+CREATE TABLE "stage" (
    "id" BIGINT IDENTITY PRIMARY KEY,
    "nom" VARCHAR(255) NOT NULL UNIQUE,
    "type" VARCHAR(255) NOT NULL,
@@ -18,11 +18,11 @@ CREATE TABLE "projet" (
    "type_id" BIGINT NOT NULL,
    "nom" VARCHAR(255) NOT NULL UNIQUE,
    "description" VARCHAR(1000),
-   "stage_id" BIGINT NOT NULL
+   "stage_id" BIGINT
 );
 
 CREATE TABLE "stage_projet" (
-   "id" BIGINT PRIMARY KEY,
+   "id" BIGINT IDENTITY PRIMARY KEY,
    "projet_id" BIGINT NOT NULL,
    "id_stage" BIGINT NOT NULL,
    "ordre" INTEGER NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE "projet_chapitres" (
 );
 
 CREATE TABLE "tracklist" (
-   "id" BIGINT PRIMARY KEY,
+   "id" BIGINT IDENTITY PRIMARY KEY,
    "stage_id" BIGINT,
    "chapitre_id" BIGINT,
    "cochable" BOOLEAN NOT NULL,
@@ -65,49 +65,49 @@ CREATE TABLE "tracklist" (
 );
 
 CREATE TABLE "beta_lecteur" (
-   "id" BIGINT PRIMARY KEY,
+   "id" BIGINT IDENTITY PRIMARY KEY,
    "stage_id" BIGINT NOT NULL,
    "nom" VARCHAR(255) NOT NULL,
    "id_status" BIGINT NOT NULL
 );
 
 CREATE TABLE "bl_status" (
-   "id" BIGINT PRIMARY KEY,
+   "id" BIGINT IDENTITY PRIMARY KEY,
    "nom" VARCHAR(255) NOT NULL,
    "description" VARCHAR(1000)
 );
 
 CREATE TABLE "bl_question" (
-   "id" BIGINT PRIMARY KEY,
+   "id" BIGINT IDENTITY PRIMARY KEY,
    "stage_id" BIGINT NOT NULL,
    "question" VARCHAR(512) NOT NULL
 );
 
 CREATE TABLE "reponse_bl" (
-   "id" BIGINT PRIMARY KEY,
+   "id" BIGINT IDENTITY PRIMARY KEY,
    "id_bl" BIGINT NOT NULL,
    "id_question" BIGINT NOT NULL,
    "reponse" CLOB(2K)
 );
 
 CREATE TABLE "maison_edition" (
-  "id" BIGINT PRIMARY KEY,
+  "id" BIGINT IDENTITY PRIMARY KEY,
   "stage_id" BIGINT NOT NULL,
   "nom" VARCHAR(128) NOT NULL,
-  "soumission_ouvertes" bool NOT NULL,
+  "soumission_ouvertes" BOOLEAN NOT NULL,
   "coordonnées" VARCHAR(255) NOT NULL,
   "deadline" DATE,
   "id_status" BIGINT NOT NULL
 );
 
 CREATE TABLE "me_status" (
-  "id" BIGINT PRIMARY KEY,
+  "id" BIGINT IDENTITY PRIMARY KEY,
   "nom" VARCHAR(64) NOT NULL,
   "description" VARCHAR(1000)
 );
 
 CREATE TABLE "me_dossier" (
-  "id" BIGINT PRIMARY KEY,
+  "id" BIGINT IDENTITY PRIMARY KEY,
   "id_me" BIGINT NOT NULL,
   "type" VARCHAR(64) NOT NULL,
   "element" VARCHAR(255) NOT NULL,

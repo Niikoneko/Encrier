@@ -9,9 +9,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
-import javafx.stage.Stage;
 import org.niikoneko.encrier.data.DataConnector;
 import org.niikoneko.encrier.jpa.Projet;
+import org.niikoneko.encrier.jpa.Stage;
+import org.niikoneko.encrier.jpa.StageProjet;
 import org.niikoneko.encrier.jpa.TypeProjet;
 import org.niikoneko.encrier.userInterface.formulaires.IntegrationProjetController;
 import org.niikoneko.encrier.userInterface.formulaires.NouveauProjetController;
@@ -72,11 +73,13 @@ public class MainController {
     protected void onNouveauClick() throws IOException {
         Logger.debug("Ouverture de la fenêtre de création d'un nouveau projet");
         List<TypeProjet> listTypes = bddHandler.getAllTypesProjets();
-        NouveauProjetController.loadChoices(listTypes);
+        List<Stage> listTypesEtapes = bddHandler.getAllStages();
+        NouveauProjetController.loadTPChoices(listTypes);
+        NouveauProjetController.loadTEChoices(listTypesEtapes);
         NouveauProjetController.controller = this;
         FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/nouveau_projet.fxml"));
-        Scene projetFormScene = new Scene(loader.load(), 600, 400);
-        Stage nouveauProjet = new Stage();
+        Scene projetFormScene = new Scene(loader.load(), 600, 600);
+        javafx.stage.Stage nouveauProjet = new javafx.stage.Stage();
         nouveauProjet.setScene(projetFormScene);
         nouveauProjet.getIcons().add(appliIcon);
         nouveauProjet.setTitle("Formulaire");
@@ -99,7 +102,7 @@ public class MainController {
         Logger.debug("Ouverture de la fenêtre de gestion des types de projet");
         FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/gestion_types.fxml"));
         Scene gestionTypesScene = new Scene(loader.load(), 700, 400);
-        Stage gestionTypes = new Stage();
+        javafx.stage.Stage gestionTypes = new javafx.stage.Stage();
         gestionTypes.setScene(gestionTypesScene);
         gestionTypes.getIcons().add(appliIcon);
         gestionTypes.setTitle("Gestion des types de projet");
@@ -127,7 +130,7 @@ public class MainController {
     protected void onProblemeClick() throws IOException {
         FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/signaler_bug.fxml"));
         Scene bugFormScene = new Scene(loader.load(), 600, 500);
-        Stage bugForm = new Stage();
+        javafx.stage.Stage bugForm = new javafx.stage.Stage();
         bugForm.setScene(bugFormScene);
         bugForm.getIcons().add(appliIcon);
         bugForm.setTitle("Formulaire");
@@ -138,7 +141,7 @@ public class MainController {
     protected void onAvisClick() throws IOException {
         FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/avis_appli.fxml"));
         Scene avisScene = new Scene(loader.load(), 600, 400);
-        Stage donnerAvis = new Stage();
+        javafx.stage.Stage donnerAvis = new javafx.stage.Stage();
         donnerAvis.setScene(avisScene);
         donnerAvis.getIcons().add(appliIcon);
         donnerAvis.setTitle("Information");
@@ -149,7 +152,7 @@ public class MainController {
     protected void onInfoClick() throws IOException {
         FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/a_propos.fxml"));
         Scene infoScene = new Scene(loader.load(), 600, 400);
-        Stage aPropos = new Stage();
+        javafx.stage.Stage aPropos = new javafx.stage.Stage();
         aPropos.setScene(infoScene);
         aPropos.getIcons().add(appliIcon);
         aPropos.setTitle("Information");
@@ -162,8 +165,8 @@ public class MainController {
     protected void onProjetClick(){
         selectedProjet = listProjets.getSelectionModel().getSelectedItem();
         if (selectedProjet != null) {
-            rightController.setCurrentProjet(selectedProjet);
-            centralController.setCurrentProjet(selectedProjet);
+            rightController.setCurrentProjetStage(selectedProjet.getStageProjet());
+            centralController.setCurrentProjetStage(selectedProjet.getStageProjet());
         }
     }
 
@@ -173,12 +176,12 @@ public class MainController {
         centralController.updateDisplays();
     }
 
-    public void launchIntegration(Projet projet) throws IOException {
+    public void launchIntegration(StageProjet stage) throws IOException {
         Logger.debug("Ouverture de la fenêtre d'intégration d'un nouveau projet.");
-        IntegrationProjetController.loadProjet(projet);
+        IntegrationProjetController.loadProjetStage(stage);
         FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/integrer_projet.fxml"));
         Scene integFormScene = new Scene(loader.load(), 600, 400);
-        Stage integrationProjet = new Stage();
+        javafx.stage.Stage integrationProjet = new javafx.stage.Stage();
         integrationProjet.setScene(integFormScene);
         integrationProjet.getIcons().add(appliIcon);
         integrationProjet.setTitle("Formulaire");

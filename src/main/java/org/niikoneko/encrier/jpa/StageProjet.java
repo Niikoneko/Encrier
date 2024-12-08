@@ -2,7 +2,7 @@ package org.niikoneko.encrier.jpa;
 
 public class StageProjet {
 
-    public StageProjet(Long id, Projet projet, Stages stage, Integer ordre, String nom) {
+    public StageProjet(Long id, Projet projet, Stage stage, Integer ordre, String nom) {
         this.id = id;
         this.projet = projet;
         this.stage = stage;
@@ -17,7 +17,7 @@ public class StageProjet {
      * @param ordre L'ordre de l'étape pour le projet
      * @param nom Le nom de l'étape
      */
-    public StageProjet(Projet projet, Stages stage, Integer ordre, String nom) {
+    public StageProjet(Projet projet, Stage stage, Integer ordre, String nom) {
         this.projet = projet;
         this.stage = stage;
         this.ordre = ordre;
@@ -28,7 +28,7 @@ public class StageProjet {
 
     private Projet projet;
 
-    private Stages stage;
+    private Stage stage;
 
     private Integer ordre;
 
@@ -38,7 +38,7 @@ public class StageProjet {
         return projet;
     }
 
-    public Stages getStage() {
+    public Stage getStage() {
         return stage;
     }
 

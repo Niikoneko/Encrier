@@ -2,9 +2,9 @@ package org.niikoneko.encrier.jpa;
 
 import org.niikoneko.encrier.data.TypesEtapes;
 
-public class Stages {
+public class Stage {
 
-    public Stages(Long id, String nom, TypesEtapes type, String description) {
+    public Stage(Long id, String nom, TypesEtapes type, String description) {
         this.id = id;
         this.nom = nom;
         this.type = type;
@@ -17,7 +17,7 @@ public class Stages {
      * @param type Le type d'étape
      * @param description La description de l'étape
      */
-    public Stages(String nom, TypesEtapes type, String description) {
+    public Stage(String nom, TypesEtapes type, String description) {
         this.nom = nom;
         this.type = type;
         this.description = description;
@@ -35,7 +35,7 @@ public class Stages {
         return description;
     }
 
-    public Stages setDescription(String description) {
+    public Stage setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -44,16 +44,20 @@ public class Stages {
         return nom;
     }
 
-    public Stages setNom(String nom) {
+    public Stage setNom(String nom) {
         this.nom = nom;
         return this;
     }
 
-    public String getType() {
+    public TypesEtapes getType() {
+        return type;
+    }
+
+    public String getStringType() {
         return type.getDbValue();
     }
 
-    public Stages setType(TypesEtapes type) {
+    public Stage setType(TypesEtapes type) {
         this.type = type;
         return this;
     }
@@ -62,7 +66,7 @@ public class Stages {
         return id;
     }
 
-    public Stages setId(Long id) {
+    public Stage setId(Long id) {
         this.id = id;
         return this;
     }

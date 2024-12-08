@@ -82,14 +82,15 @@ public class DataConnector {
      * Récupère tous les types d'étapes projet existantes en BDD
      * @return La liste des types d'étapes projet
      */
-    public List<TypeProjet> getAllStages() {
-        String query = "SELECT * FROM \"stages\";";
+    public List<Stage> getAllStages() {
+        String query = "SELECT * FROM \"stage\";";
         try {
-            List<TypeProjet> resultat = new ArrayList<>();
+            List<Stage> resultat = new ArrayList<>();
             ResultSet result = executeQuery(query);
             while (result.next()) {
-                resultat.add(new TypeProjet(result.getLong("id"),
+                resultat.add(new Stage(result.getLong("id"),
                         result.getString("nom"),
+                        TypesEtapes.fromString(result.getString("type")),
                         result.getString("description")));
             }
             return resultat;
@@ -102,22 +103,22 @@ public class DataConnector {
     /**
      * Récupère un type d'étape projet à partir de son id
      * @param id L'id du type d'étape projet
-     * @return L'objet Stages associé
+     * @return L'objet Stage associé
      */
-    public Stages getStagesFromId(long id) {
-        String query = "SELECT * FROM \"stages\" WHERE \"id\" = " + id + ";";
+    public Stage getStagesFromId(long id) {
+        String query = "SELECT * FROM \"stage\" WHERE \"id\" = " + id + ";";
         try {
-            Stages resultat;
+            Stage resultat;
             ResultSet result = executeQuery(query);
             if (result.next()) {
-                resultat = new Stages(result.getLong("id"),
+                resultat = new Stage(result.getLong("id"),
                         result.getString("nom"),
                         TypesEtapes.fromString(result.getString("type")),
                         result.getString("description"));
                 return resultat;
             }
         } catch (SQLException e) {
-            Logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
+            Logger.error("Erreur de récupération de type d'étapes de projet. Requête : \n {}", query, e);
         }
         return null;
     }
@@ -131,14 +132,16 @@ public class DataConnector {
         try {
             List<Projet> resultat = new ArrayList<>();
             ResultSet result = executeQuery(query);
+            Projet tempProjet;
             while (result.next()) {
                 TypeProjet type = getTypeProjetFromId(result.getLong("type_id"));
-                StageProjet curStage = getStageProjetFromId(result.getLong("stage_id"));
-                resultat.add(new Projet(result.getLong("id"),
+                tempProjet = new Projet(result.getLong("id"),
                         type,
                         result.getString("nom"),
-                        result.getString("description"),
-                        curStage));
+                        result.getString("description"));
+                StageProjet curStage = getStageProjetFromProjetAndId(tempProjet, result.getLong("stage_id"));
+                tempProjet.setStageProjet(curStage);
+                resultat.add(tempProjet);
             }
             return resultat;
         } catch (SQLException e) {
@@ -157,13 +160,15 @@ public class DataConnector {
         try {
             List<Projet> resultat = new ArrayList<>();
             ResultSet result = executeQuery(query);
+            Projet tempProjet;
             while (result.next()) {
-                StageProjet curStage = getStageProjetFromId(result.getLong("stage_id"));
-                resultat.add(new Projet(result.getLong("id"),
+                tempProjet = new Projet(result.getLong("id"),
                         type,
                         result.getString("nom"),
-                        result.getString("description"),
-                        curStage));
+                        result.getString("description"));
+                StageProjet curStage = getStageProjetFromProjetAndId(tempProjet, result.getLong("stage_id"));
+                tempProjet.setStageProjet(curStage);
+                resultat.add(tempProjet);
             }
             return resultat;
         } catch (SQLException e) {
@@ -184,16 +189,16 @@ public class DataConnector {
             ResultSet result = executeQuery(query);
             if (result.next()) {
                 TypeProjet type = getTypeProjetFromId(result.getLong("type_id"));
-                StageProjet curStage = getStageProjetFromId(result.getLong("stage_id"));
                 resultat = new Projet(result.getLong("id"),
                         type,
                         result.getString("nom"),
-                        result.getString("description"),
-                        curStage);
+                        result.getString("description"));
+                StageProjet curStage = getStageProjetFromProjetAndId(resultat, result.getLong("stage_id"));
+                resultat.setStageProjet(curStage);
                 return resultat;
             }
         } catch (SQLException e) {
-            Logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
+            Logger.error("Erreur de récupération d'un projet. Requête : \n {}", query, e);
         }
         return null;
     }
@@ -210,16 +215,16 @@ public class DataConnector {
             ResultSet result = executeQuery(query);
             if (result.next()) {
                 TypeProjet type = getTypeProjetFromId(result.getLong("type_id"));
-                StageProjet curStage = getStageProjetFromId(result.getLong("stage_id"));
                 resultat = new Projet(result.getLong("id"),
                         type,
                         result.getString("nom"),
-                        result.getString("description"),
-                        curStage);
+                        result.getString("description"));
+                StageProjet curStage = getStageProjetFromProjetAndId(resultat, result.getLong("stage_id"));
+                resultat.setStageProjet(curStage);
                 return resultat;
             }
         } catch (SQLException e) {
-            Logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
+            Logger.error("Erreur de récupération d'un projet. Requête : \n {}", query, e);
         }
         return null;
     }
@@ -229,14 +234,13 @@ public class DataConnector {
      * @param id L'id de l'étape projet
      * @return L'étape projet possédant cet id
      */
-    public StageProjet getStageProjetFromId(long id) {
+    public StageProjet getStageProjetFromProjetAndId(Projet projet, long id) {
         String query = "SELECT * FROM \"stage_projet\" WHERE \"id\" = " + id + ";";
         try {
             StageProjet resultat;
             ResultSet result = executeQuery(query);
             if (result.next()) {
-                Projet projet = getProjetFromId(result.getLong("projet_id"));
-                Stages stage = getStagesFromId(result.getLong("id_stage"));
+                Stage stage = getStagesFromId(result.getLong("id_stage"));
                 resultat = new StageProjet(result.getLong("id"),
                         projet,
                         stage,
@@ -245,7 +249,35 @@ public class DataConnector {
                 return resultat;
             }
         } catch (SQLException e) {
-            Logger.error("Erreur de récupération d'un type de projet. Requête : \n {}", query, e);
+            Logger.error("Erreur de récupération d'une étape de projet. Requête : \n {}", query, e);
+        }
+        return null;
+    }
+
+    /**
+     * Récupère une étape projet par son projet et son nom
+     * @param projet Le projet associé
+     * @param nom Le nom de l'étape projet
+     * @return L'étape projet possédant ce projet et ce nom
+     */
+    public StageProjet getStageProjetFromProjetEtNom(Projet projet, String nom) {
+        String query = "SELECT * FROM \"stage_projet\" " +
+                "WHERE \"projet_id\" = '" + projet.getId() + "' " +
+                "AND \"nom\" = '" + replaceApostrophes(nom) + "';";
+        try {
+            StageProjet resultat;
+            ResultSet result = executeQuery(query);
+            if (result.next()) {
+                Stage stage = getStagesFromId(result.getLong("id_stage"));
+                resultat = new StageProjet(result.getLong("id"),
+                        projet,
+                        stage,
+                        result.getInt("ordre"),
+                        result.getString("nom"));
+                return resultat;
+            }
+        } catch (SQLException e) {
+            Logger.error("Erreur de récupération d'une étape de projet. Requête : \n {}", query, e);
         }
         return null;
     }
@@ -364,17 +396,17 @@ public class DataConnector {
         String query;
         if (projet.getId() == null) {
             // Création
-             query = "INSERT INTO \"projet\" (\"type_id\", \"nom\", \"description\", \"archive\") " +
+             query = "INSERT INTO \"projet\" (\"type_id\", \"nom\", \"description\") " +
                     "VALUES ('" + projet.getTypeProjet().getId() + "', '" +
                     replaceApostrophes(projet.getNom()) + "', '" +
-                    replaceApostrophes(projet.getDescription()) + "', '" + projet.getStageProjet().getId() + "');";
+                    replaceApostrophes(projet.getDescription()) + "');";
         } else {
             // Mise à jour
             query = "UPDATE \"projet\"" +
                     "SET \"type_id\" = '" + projet.getTypeProjet().getId() + "', " +
                     "\"nom\" = '" + replaceApostrophes(projet.getNom()) + "', " +
                     "\"description\" = '" + replaceApostrophes(projet.getDescription()) + "', " +
-                    "\"archive\" = '" + projet.getStageProjet().getId() + "' " +
+                    "\"stage_id\" = '" + projet.getStageProjet().getId() + "' " +
                     "WHERE \"id\" = " + projet.getId() + ";";
         }
         try {
@@ -385,6 +417,38 @@ public class DataConnector {
             return "Un projet du même nom existe déjà.";
         } catch (SQLException e) {
             Logger.error("Erreur de création ou MAJ d'un projet. Requête : \n {}", query, e);
+            return "Erreur inconnue.";
+        }
+    }
+
+    /**
+     * Créé une étape projet si l'id est vide, la met à jour sinon
+     * @param etape L'étape projet à créer ou modifier
+     * @return Un texte vide si ok, l'erreur si erreur
+     */
+    public String createOrUpdateStageProjet(StageProjet etape) {
+        String query;
+        if (etape.getId() == null) {
+            // Création
+            query = "INSERT INTO \"stage_projet\" (\"projet_id\", \"id_stage\", \"ordre\", \"nom\") " +
+                    "VALUES ('" + etape.getProjet().getId() + "', '" +
+                    etape.getStage().getId() + "', '" +
+                    etape.getOrdre() + "', '" +
+                    replaceApostrophes(etape.getNom()) + "');";
+        } else {
+            // Mise à jour
+            query = "UPDATE \"stage_projet\"" +
+                    "SET \"projet_id\" = '" + etape.getProjet().getId() + "', " +
+                    "\"id_stage\" = '" + etape.getStage().getId() + "', " +
+                    "\"ordre\" = '" + etape.getOrdre() + "', " +
+                    "\"nom\" = '" + replaceApostrophes(etape.getNom()) + "' " +
+                    "WHERE \"id\" = " + etape.getId() + ";";
+        }
+        try {
+            executeQuery(query);
+            return "";
+        } catch (SQLException e) {
+            Logger.error("Erreur de création ou MAJ d'une étape projet. Requête : \n {}", query, e);
             return "Erreur inconnue.";
         }
     }

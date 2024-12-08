@@ -11,16 +11,29 @@ public class Projet {
     }
 
     /**
-     * Constructeur pré-création
-     * @param type le type de projet
+     * Constructeur en cours de récupération BDD : avant récupération de l'étape projet
+     * @param id L'id du projet
+     * @param type Le type de projet
      * @param nom Le nom du projet
      * @param description Une description du projet
      */
-    public Projet(TypeProjet type, String nom, String description, StageProjet etape) {
+    public Projet(Long id, TypeProjet type, String nom, String description) {
+        this.id = id;
         this.typeProjet = type;
         this.nom = nom;
         this.description = description;
-        this.etape = etape;
+    }
+
+    /**
+     * Constructeur pré-création
+     * @param type Le type de projet
+     * @param nom Le nom du projet
+     * @param description Une description du projet
+     */
+    public Projet(TypeProjet type, String nom, String description) {
+        this.typeProjet = type;
+        this.nom = nom;
+        this.description = description;
     }
 
     private Long id;

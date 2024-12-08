@@ -6,12 +6,12 @@ INSERT INTO "type_projet" ("nom", "description") VALUES ('Recueil de poèmes', '
 
 -- Données par défaut pour les étapes de projet
 
-INSERT INTO "stages" ("id", "nom", "type", "description") VALUES (1, 'Planification', 'Suivi', 'La planification du manuscrit');
-INSERT INTO "stages" ("id", "nom", "type", "description") VALUES (2, 'Premier jet', 'Ecriture et suivi', 'L\'écriture du premier jet manuscrit');
-INSERT INTO "stages" ("id", "nom", "type", "description") VALUES (3, 'Réécriture', 'Ecriture et suivi', 'La reprise corrective du manuscrit');
-INSERT INTO "stages" ("id", "nom", "type", "description") VALUES (4, 'Bêta-lecture', 'Beta-lecture', 'Le suivi des bêta-lectures du manuscrit');
-INSERT INTO "stages" ("id", "nom", "type", "description") VALUES (5, 'Envoi en maison d\'édition', 'Envoi ME', 'Le suivi des envois en maison d\'édition du manuscrit');
-INSERT INTO "stages" ("id", "nom", "type", "description") VALUES (6, 'Terminé', 'Archive', 'Le statut final d\'un projet');
+INSERT INTO "stage" ("id", "nom", "type", "description") VALUES (1, 'Planification', 'Suivi', 'La planification du manuscrit');
+INSERT INTO "stage" ("id", "nom", "type", "description") VALUES (2, 'Premier jet', 'Ecriture et suivi', 'L''écriture du premier jet manuscrit');
+INSERT INTO "stage" ("id", "nom", "type", "description") VALUES (3, 'Réécriture', 'Ecriture et suivi', 'La reprise corrective du manuscrit');
+INSERT INTO "stage" ("id", "nom", "type", "description") VALUES (4, 'Bêta-lecture', 'Beta-lecture', 'Le suivi des bêta-lectures du manuscrit');
+INSERT INTO "stage" ("id", "nom", "type", "description") VALUES (5, 'Envoi en maison d''édition', 'Envoi ME', 'Le suivi des envois en maison d''édition du manuscrit');
+INSERT INTO "stage" ("id", "nom", "type", "description") VALUES (6, 'Terminé', 'Archive', 'Le statut final d''un projet');
 
 -- Données par défaut pour les statuts de Bêta-lecture
 
