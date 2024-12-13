@@ -284,7 +284,7 @@ public class DataConnector {
 
     public List<ProjetMots> getAllProjetMotsFromStageProjet(StageProjet stageProjet) {
         String query = "SELECT * FROM \"projet_mots\"" +
-                "WHERE \"projet_id\" = " + stageProjet.getId() + " " +
+                "WHERE \"stage_id\" = " + stageProjet.getId() + " " +
                 "ORDER BY \"entry_date\" ASC;";
         List<ProjetMots> resultats = new ArrayList<>();
         try {
@@ -304,8 +304,9 @@ public class DataConnector {
     }
 
     public int getNombreMotsFromProjet(Projet projet) {
-        String query = "SELECT SUM(\"nombre_mots\") as mots FROM \"projet_mots\"" +
-                "WHERE \"projet_id\" = " + projet.getId() + ";";
+        String query = "SELECT SUM(\"nombre_mots\") as mots FROM \"projet_mots\" p " +
+                "JOIN \"stage_projet\" s ON p.\"stage_id\" = s.\"id\" " +
+                "WHERE s.\"projet_id\" = " + projet.getId() + ";";
         try {
             ResultSet result = executeQuery(query);
             if (result.next())
@@ -317,8 +318,9 @@ public class DataConnector {
     }
 
     public Duration getTempsFromProjet(Projet projet) {
-        String query = "SELECT SUM(\"temps_session\") as temps FROM \"projet_mots\"" +
-                "WHERE \"projet_id\" = " + projet.getId() + ";";
+        String query = "SELECT SUM(\"temps_session\") as temps FROM \"projet_mots\" p " +
+                "JOIN \"stage_projet\" s ON p.\"stage_id\" = s.\"id\" " +
+                "WHERE s.\"projet_id\" = " + projet.getId() + ";";
         try {
             ResultSet result = executeQuery(query);
             if (result.next() && !(result.getString("temps") == null))
@@ -459,7 +461,7 @@ public class DataConnector {
      * @return Un texte vide si ok, l'erreur si erreur
      */
     public String createProjetMots(ProjetMots session) {
-        String query = "INSERT INTO \"projet_mots\" (\"projet_id\", \"entry_date\", \"nombre_mots\", \"temps_session\")" +
+        String query = "INSERT INTO \"projet_mots\" (\"stage_id\", \"entry_date\", \"nombre_mots\", \"temps_session\")" +
                 "VALUES ('" + session.getStageProjet().getId() + "', '" + session.getEntryDate() + "', '" +
                 session.getNombreMots() + "', " +session.getTempsSession().toMinutes() + ");";
         try {

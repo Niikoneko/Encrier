@@ -11,10 +11,7 @@ import org.tinylog.Logger;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
-import java.util.Random;
 
 public class IntegrationProjetController {
 
@@ -41,6 +38,8 @@ public class IntegrationProjetController {
     @FXML
     private CheckBox aleatoire;
     @FXML
+    private TextField randcoef;
+    @FXML
     private Button annuler;
     @FXML
     private Label errorLabel;
@@ -54,6 +53,23 @@ public class IntegrationProjetController {
         minutesPassees.setTextFormatter(new NumberFormatter());
         moyenneVitesse.setTextFormatter(new NumberFormatter());
         nombreSessions.setTextFormatter(new NumberFormatter());
+        randcoef.setTextFormatter(new NumberFormatter());
+        randcoef.setText("20");
+        randcoef.setEditable(false);
+        randcoef.setCache(true);
+        startDate.setDayCellFactory(d -> new DateCell() {
+            @Override public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(item.isAfter(LocalDate.now()));
+            }
+        });
+        endDate.setDayCellFactory(d -> new DateCell() {
+            @Override public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(item.isAfter(LocalDate.now()));
+            }
+        });
+
     }
 
     public void onIntegrerClick() {
@@ -64,6 +80,14 @@ public class IntegrationProjetController {
                 && minutesPassees.getText().isEmpty() && moyenneVitesse.getText().isEmpty())) {
             errorLabel.setText("Vous devez renseigner une date de début et un nombre de mots, " +
                     "puis un temps passé ou une vitesse moyenne d'écriture.");
+            return;
+        }
+        if (endDate.getValue() != null && startDate.getValue().isAfter(endDate.getValue())) {
+            errorLabel.setText("La date de début doit être antérieure à la date de fin.");
+            return;
+        }
+        if (Integer.parseInt(randcoef.getText()) <= 0 || Integer.parseInt(randcoef.getText()) >= 100 ) {
+            errorLabel.setText("Le coefficient d'aléatoire doit être compris entre 0 et 100.");
             return;
         }
         Duration tempsEcriture = calculateDuration();
@@ -93,23 +117,20 @@ public class IntegrationProjetController {
             }
         } else {
             LocalDate dateFirstSession = startDate.getValue();
-            int nbSessions = Integer.parseInt(nombreSessions.getText());
-            int nbMots = Integer.parseInt(nombreMots.getText());
-            int nbJours = Period.between(dateFirstSession, dateLastSession).getDays();
-            int joursEntreSessions;
-            int motsParSession;
-            int motsRestants;
+            long nbSessions = Integer.parseInt(nombreSessions.getText());
+            long nbMots = Integer.parseInt(nombreMots.getText());
+            long nbJours = dateLastSession.toEpochDay() - dateFirstSession.toEpochDay();
+            long joursEntreSessions;
+            long motsParSession;
             Duration tempsParSession;
             if (nbSessions >= nbJours) {
                 joursEntreSessions = 1;
                 motsParSession = nbMots / nbJours;
-                motsRestants = nbMots % nbJours;
                 tempsParSession = tempsEcriture.dividedBy(nbJours);
                 nbSessions = nbJours;
             } else {
-                joursEntreSessions = nbJours / nbSessions;
+                joursEntreSessions = nbJours / (nbSessions - 1);
                 motsParSession = nbMots / nbSessions;
-                motsRestants = nbMots % nbSessions;
                 tempsParSession = tempsEcriture.dividedBy(nbSessions);
             }
             ProjetMots tempSession;
@@ -166,6 +187,16 @@ public class IntegrationProjetController {
         } else {
             errorLabel.setText("Vous devez entrer soit un temps soit une moyenne, pas les deux.");
             return null;
+        }
+    }
+
+    public void onAleaClick() {
+        if (aleatoire.isSelected()) {
+            randcoef.setCache(false);
+            randcoef.setEditable(true);
+        } else {
+            randcoef.setEditable(false);
+            randcoef.setCache(true);
         }
     }
 

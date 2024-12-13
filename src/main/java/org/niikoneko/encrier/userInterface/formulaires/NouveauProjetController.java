@@ -77,6 +77,8 @@ public class NouveauProjetController {
         error = bddHandler.createOrUpdateStageProjet(newEtape);
         if (error.isEmpty()) {
             newEtape = bddHandler.getStageProjetFromProjetEtNom(newProjet, newEtape.getNom());
+            newProjet.setStageProjet(newEtape);
+            error =  bddHandler.createOrUpdateProjet(newProjet);
         } else {
             Logger.error("Erreur de création BDD du projet {}. Message : {}", newProjet.getNom(), error);
             errorLabel.setText("Erreur de création du projet : " + error);
@@ -95,6 +97,7 @@ public class NouveauProjetController {
         switch (typeStage.getValue().getType()) {
             case ECRITURE, ECRITURE_ET_SUIVI:
                 triggerIntegration.setVisible(true);
+                break;
             default:
                 triggerIntegration.setVisible(false);
         }

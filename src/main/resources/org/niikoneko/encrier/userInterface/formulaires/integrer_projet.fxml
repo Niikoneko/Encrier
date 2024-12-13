@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.niikoneko.encrier.userInterface.formulaires.IntegrationProjetController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.niikoneko.encrier.userInterface.formulaires.IntegrationProjetController">
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <buttons>
@@ -42,7 +42,7 @@
                               <Font size="14.0" />
                            </font>
                            <VBox.margin>
-                              <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+                              <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
                            </VBox.margin>
                         </Label>
                         <Label contentDisplay="RIGHT" text="Date de dernière session">
@@ -50,12 +50,12 @@
                               <Font size="14.0" />
                            </font>
                            <VBox.margin>
-                              <Insets bottom="13.0" left="13.0" right="13.0" top="13.0" />
+                              <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
                            </VBox.margin>
                         </Label>
                         <Label text="Nombre de mots">
                            <VBox.margin>
-                              <Insets bottom="13.0" left="13.0" right="13.0" top="13.0" />
+                              <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
                            </VBox.margin>
                            <font>
                               <Font size="14.0" />
@@ -63,7 +63,7 @@
                         </Label>
                         <Label contentDisplay="RIGHT" text="Temps total d'écriture">
                            <VBox.margin>
-                              <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+                              <Insets bottom="12.0" left="12.0" right="12.0" top="14.0" />
                            </VBox.margin>
                            <font>
                               <Font size="14.0" />
@@ -90,7 +90,7 @@
                               <Font size="14.0" />
                            </font>
                            <VBox.margin>
-                              <Insets bottom="13.0" left="13.0" right="13.0" top="13.0" />
+                              <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
                            </VBox.margin>
                         </Label>
                      </children>
@@ -161,11 +161,19 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
                         </HBox>
-                        <CheckBox fx:id="aleatoire" mnemonicParsing="false" text="Répartition aléatoire">
+                        <HBox layoutX="20.0" layoutY="261.0" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <CheckBox fx:id="aleatoire" mnemonicParsing="false" onAction="#onAleaClick" text="Répartition aléatoire  Coefficient : ">
+                                 <HBox.margin>
+                                    <Insets top="4.0" />
+                                 </HBox.margin>
+                              </CheckBox>
+                              <TextField fx:id="randcoef" maxWidth="60.0" />
+                           </children>
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
-                        </CheckBox>
+                        </HBox>
                      </children>
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

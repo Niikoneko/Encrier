@@ -180,7 +180,7 @@ public class MainController {
         Logger.debug("Ouverture de la fenêtre d'intégration d'un nouveau projet.");
         IntegrationProjetController.loadProjetStage(stage);
         FXMLLoader loader = new FXMLLoader(MainController.class.getResource("formulaires/integrer_projet.fxml"));
-        Scene integFormScene = new Scene(loader.load(), 600, 400);
+        Scene integFormScene = new Scene(loader.load(), 600, 500);
         javafx.stage.Stage integrationProjet = new javafx.stage.Stage();
         integrationProjet.setScene(integFormScene);
         integrationProjet.getIcons().add(appliIcon);

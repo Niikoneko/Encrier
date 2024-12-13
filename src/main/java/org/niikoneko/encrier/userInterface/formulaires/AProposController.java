@@ -64,7 +64,7 @@ public class AProposController {
     @FXML
     protected void onLicenseClick() {
         try {
-            Desktop.getDesktop().open(new File("org/niikoneko/encrier/Encrier_License.md"));
+            Desktop.getDesktop().open(new File("Encrier_License.md"));
         } catch (IOException e) {
             Logger.error("Erreur IO à l'ouverture du fichier de licence :", e);
         }
