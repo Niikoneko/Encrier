@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,18 +12,39 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.niikoneko.encrier.userInterface.CentralViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.niikoneko.encrier.userInterface.CentralViewController">
    <children>
       <VBox prefHeight="560.0" prefWidth="1000.0">
          <children>
-            <Label fx:id="titre" text="Projet">
+            <HBox fillHeight="false" prefHeight="100.0">
                <VBox.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                </VBox.margin>
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
+               <children>
+                  <Label fx:id="titre" minWidth="400.0" text="Projet">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Pane prefWidth="2000.0" />
+                  <Label minWidth="200.0" text="Etape">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="20.0" top="25.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Button minWidth="150.0" mnemonicParsing="false" text="Changer d'étape">
+                     <HBox.margin>
+                        <Insets top="25.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             <Label fx:id="description" text="Description">
                <VBox.margin>
                   <Insets bottom="20.0" left="30.0" right="20.0" />
@@ -30,20 +52,26 @@
             </Label>
             <HBox prefHeight="75.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="mots" text="------ Mots">
+                  <Label fx:id="mots" minWidth="150.0" text="------ Mots">
                      <font>
                         <Font size="18.0" />
                      </font>
                      <HBox.margin>
                         <Insets bottom="20.0" left="40.0" right="20.0" top="20.0" />
                      </HBox.margin></Label>
-                  <Label fx:id="temps" layoutX="10.0" layoutY="10.0" text="--j --:-- Passés">
+                  <Label fx:id="temps" layoutX="10.0" layoutY="10.0" minWidth="150.0" text="--j --:-- Passés">
                      <HBox.margin>
                         <Insets bottom="20.0" left="60.0" right="20.0" top="20.0" />
                      </HBox.margin>
                      <font>
                         <Font size="18.0" />
                      </font></Label>
+                  <Pane prefWidth="2000.0" />
+                  <Button minWidth="200.0" mnemonicParsing="false" text="Modifier la liste de suivi">
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
             <Separator prefWidth="200.0" />

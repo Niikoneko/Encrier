@@ -2,6 +2,15 @@ package org.niikoneko.encrier.jpa;
 
 public class Chapitre {
 
+    public Chapitre(Long id, Projet projet, String type, String titre, Integer ordre, String notes) {
+        this.id = id;
+        this.projet = projet;
+        this.chapitreType = type;
+        this.titre = titre;
+        this.ordre = ordre;
+        this.notes = notes;
+    }
+
     private Long id;
 
     private Projet projet;

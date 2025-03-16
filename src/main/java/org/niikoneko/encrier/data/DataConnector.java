@@ -331,6 +331,50 @@ public class DataConnector {
         return Duration.of(0, ChronoUnit.MINUTES);
     }
 
+    public Chapitre getChapitreFromId(long id) {
+        String query = "SELECT * FROM \"chapitre\" WHERE \"id\" = " + id + ";";
+        try {
+            Chapitre resultat;
+            ResultSet result = executeQuery(query);
+            if (result.next()) {
+                Projet projet = getProjetFromId(result.getLong("projet_id"));
+                resultat = new Chapitre(result.getLong("id"),
+                        projet,
+                        result.getString("chapitre_type"),
+                        result.getString("titre"),
+                        result.getInt("titre"),
+                        result.getString("notes"));
+                return resultat;
+            }
+        } catch (SQLException e) {
+            Logger.error("Erreur de récupération d'un projet. Requête : \n {}", query, e);
+        }
+        return null;
+    }
+
+    public List<Tracklist> getAllTracklistFromStageProjet(StageProjet stageProjet) {
+        String query = "SELECT * FROM \"tracklist\"" +
+                "WHERE \"stage_id\" = " + stageProjet.getId() + " " +
+                "ORDER BY \"entry_date\" ASC;";
+        List<Tracklist> resultats = new ArrayList<>();
+        try {
+            ResultSet result = executeQuery(query);
+            while (result.next()) {
+                resultats.add(new Tracklist(result.getLong("id"),
+                        stageProjet,
+                        getChapitreFromId(result.getLong("chapitre_id")),
+                        result.getBoolean("cochable"),
+                        result.getBoolean("coche"),
+                        result.getString("categorie"),
+                        result.getString("description"))
+                );
+            }
+        } catch (SQLException e) {
+            Logger.error("Erreur de récupération d'objets. Requête : \n {}", query, e);
+        }
+        return resultats;
+    }
+
     /**
      * Création de la base de données (premier lancement)
      * @return true si la création est OK, false sinon

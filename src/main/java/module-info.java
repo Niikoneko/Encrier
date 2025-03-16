@@ -12,7 +12,7 @@ module org.niikoneko.encrier {
     requires java.sql;
 
     opens org.niikoneko.encrier to javafx.fxml;
-    opens org.niikoneko.encrier.userInterface.formulaires to javafx.fxml;
+    opens org.niikoneko.encrier.userInterface.menus to javafx.fxml;
     exports org.niikoneko.encrier;
     exports org.niikoneko.encrier.userInterface;
     opens org.niikoneko.encrier.userInterface to javafx.fxml;

@@ -2,6 +2,17 @@ package org.niikoneko.encrier.jpa;
 
 public class Tracklist {
 
+    public Tracklist(Long id, StageProjet stage, Chapitre chapitre, boolean cochable, boolean coche, String categorie,
+                     String description) {
+        this.id = id;
+        this.stageProjet = stage;
+        this.chapitre = chapitre;
+        this.cochable = cochable;
+        this.coche = coche;
+        this.categorie = categorie;
+        this.description = description;
+    }
+
     private Long id;
 
     private StageProjet stageProjet;
